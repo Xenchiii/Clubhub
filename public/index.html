@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClubHub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body.dark {
+            background: linear-gradient(to bottom right, #111827, #1e3a8a, #111827);
+            color: #f3f4f6;
+        }
+
+        body.light {
+            background: linear-gradient(to bottom right, #f9fafb, #dbeafe, #f9fafb);
+            color: #111827;
+        }
+
+        .card {
+            border-radius: 1rem;
+            padding: 1.5rem;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        body.dark .card {
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid #374151;
+        }
+
+        body.light .card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #e5e7eb;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #3b82f6;
+        }
+
+        .nav {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav button {
+            background: none;
+            border: none;
+            color: inherit;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .nav button:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .btn-primary:disabled {
+            background: #6b7280;
+            cursor: not-allowed;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        }
+
+        .input, .textarea, .select {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid;
+            transition: all 0.3s;
+        }
+
+        body.dark .input, body.dark .textarea, body.dark .select {
+            background: #374151;
+            border-color: #4b5563;
+            color: #f3f4f6;
+        }
+
+        body.light .input, body.light .textarea, body.light .select {
+            background: #f3f4f6;
+            border-color: #d1d5db;
+            color: #111827;
+        }
+
+        .input:focus, .textarea:focus, .select:focus {
+            outline: none;
+            ring: 2px solid #3b82f6;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 42rem;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .club-card {
+            cursor: pointer;
+            transition: transform 0.3s;
+            overflow: hidden;
+        }
+
+        .club-card:hover {
+            transform: scale(1.05);
+        }
+
+        .club-image {
+            width: 100%;
+            height: 12rem;
+            object-fit: cover;
+        }
+
+        .avatar {
+            width: 6rem;
+            height: 6rem;
+            background: #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .calendar-day {
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            transition: background 0.3s;
+        }
+
+        .calendar-day:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .calendar-day.today {
+            background: #3b82f6;
+            color: white;
+            font-weight: bold;
+        }
+
+        .calendar-header {
+            font-weight: 600;
+            color: #3b82f6;
+            padding: 0.5rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .login-container {
+            max-width: 28rem;
+            margin: 5rem auto;
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3b82f6;
+            margin-bottom: 1.5rem;
+        }
+
+        .announcement-item, .event-item, .club-item {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        body.dark .announcement-item, body.dark .event-item, body.dark .club-item {
+            background: #374151;
+        }
+
+        body.light .announcement-item, body.light .event-item, body.light .club-item {
+            background: #f3f4f6;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        .text-xs {
+            font-size: 0.75rem;
+        }
+
+        .text-gray {
+            color: #9ca3af;
+        }
+
+        .mb-2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+
+        .mt-4 {
+            margin-top: 1rem;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        .gap-6 {
+            gap: 1.5rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #9ca3af;
+        }
+
+        .error {
+            background: #ef4444;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="dark">
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="card">
+            <div class="flex items-center" style="justify-content: space-between; margin-bottom: 2rem;">
+                <h1 class="logo">ClubHub</h1>
+                <button onclick="toggleTheme()" class="btn">🌙</button>
+            </div>
+            
+            <div id="loginError" class="error hidden"></div>
+            
+            <form onsubmit="login(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" class="input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" class="input" required>
+                </div>
+                
+                <button type="submit" id="loginBtn" class="btn btn-primary" style="width: 100%;">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" class="hidden">
+        <!-- Header -->
+        <header class="header card">
+            <div class="header-content container">
+                <h1 class="logo">ClubHub</h1>
+                
+                <nav class="nav">
+                    <button onclick="showPage('dashboard')">Dashboard</button>
+                    <button onclick="showPage('clubs')">Clubs</button>
+                    <button onclick="showPage('profile')">Profile</button>
+                    <button onclick="toggleTheme()">🌙</button>
+                    <button onclick="logout()" class="btn btn-danger">Logout</button>
+                </nav>
+            </div>
+        </header>
+
+        <main class="container" style="padding-top: 2rem;">
+            <!-- Admin Dashboard -->
+            <div id="adminDashboard" class="hidden">
+                <h2 class="title">Admin Dashboard</h2>
+                
+                <div class="grid grid-3">
+                    <div class="card">
+                        <h3 class="mb-4" style="font-size: 1.25rem; font-weight: bold;">Statistics</h3>
+                        <p id="statsClubs">Total Clubs: 0</p>
+                        <p id="statsMembers">Total Members: 0</p>
+                        <p id="statsEvents">Total Events: 0</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 class="mb-4" style="font-size: 1.25rem; font-weight: bold;">Quick Actions</h3>
+                        <button onclick="openModal('createClub')" class="btn btn-primary mb-2" style="width: 100%;">Create Club</button>
+                        <button onclick="openModal('announcement')" class="btn btn-primary mb-2" style="width: 100%;">Post Announcement</button>
+                        <button onclick="openModal('event')" class="btn btn-primary" style="width: 100%;">Create Event</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 class="mb-4" style="font-size: 1.25rem; font-weight: bold;">Announcements</h3>
+                        <div id="adminAnnouncements"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member Dashboard -->
+            <div id="memberDashboard" class="hidden">
+                <h2 class="title">Member Dashboard</h2>
+                
+                <div class="grid grid-2">
+                    <div class="card">
+                        <h3 class="mb-4" style="font-size: 1.25rem; font-weight: bold;">My Clubs</h3>
+                        <div id="memberClubs"></div>
+                        <button onclick="showPage('clubs')" class="btn btn-primary mt-4" style="width: 100%;">Browse Clubs</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 class="mb-4" style="font-size: 1.25rem; font-weight: bold;">Upcoming Events</h3>
+                        <div id="memberEvents"></div>
+                        <button onclick="showPage('calendar')" class="btn btn-primary mt-4" style="width: 100%;">View Calendar</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 class="mb-4" style="font-size: 1.25rem; font-weight: bold;">Announcements</h3>
+                        <div id="memberAnnouncements"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clubs Page -->
+            <div id="clubsPage" class="hidden">
+                <h2 class="title">Clubs Directory</h2>
+                
+                <div id="clubsGrid" class="grid grid-3">
+                    <div class="loading">Loading clubs...</div>
+                </div>
+            </div>
+
+            <!-- Profile Page -->
+            <div id="profilePage" class="hidden">
+                <h2 class="title">My Profile</h2>
+                
+                <div class="card" style="max-width: 42rem; margin: 0 auto;">
+                    <div class="flex items-center gap-6 mb-4">
+                        <div class="avatar" id="profileAvatar">A</div>
+                        <div>
+                            <h3 id="profileName" style="font-size: 1.5rem; font-weight: bold;">User</h3>
+                            <p id="profileEmail" class="text-gray">email@example.com</p>
+                            <p id="profileRole" style="color: #3b82f6; font-weight: 600; margin-top: 0.25rem;">Role: Member</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 0.75rem;">My Clubs</h4>
+                        <div id="profileClubs"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar Page -->
+            <div id="calendarPage" class="hidden">
+                <h2 class="title">Calendar</h2>
+                
+                <div class="card">
+                    <div class="flex items-center" style="justify-content: space-between; margin-bottom: 1rem;">
+                        <button onclick="previousMonth()" class="btn">‹</button>
+                        <h3 id="calendarTitle" style="font-size: 1.25rem; font-weight: bold; color: #3b82f6;">Month Year</h3>
+                        <button onclick="nextMonth()" class="btn">›</button>
+                    </div>
+                    
+                    <div class="calendar">
+                        <div class="calendar-header">Sun</div>
+                        <div class="calendar-header">Mon</div>
+                        <div class="calendar-header">Tue</div>
+                        <div class="calendar-header">Wed</div>
+                        <div class="calendar-header">Thu</div>
+                        <div class="calendar-header">Fri</div>
+                        <div class="calendar-header">Sat</div>
+                    </div>
+                    <div id="calendarDays" class="calendar"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal" onclick="closeModal(event)">
+        <div class="modal-content card" onclick="event.stopPropagation()">
+            <div class="flex items-center" style="justify-content: space-between; margin-bottom: 1rem;">
+                <h3 id="modalTitle" style="font-size: 1.5rem; font-weight: bold;">Modal</h3>
+                <button onclick="closeModal()" class="btn">✕</button>
+            </div>
+            
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // API Configuration
+        const API_BASE_URL = '/api';
+
+        // State
+        let database = {
+            clubs: [],
+            generalAnnouncements: [],
+            generalEvents: []
+        };
+
+        let currentUser = null;
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let selectedClub = null;
+
+        // API Helper Functions
+        async function apiCall(endpoint, options = {}) {
+            try {
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                    ...options,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    }
+                });
+                
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'API request failed');
+                }
+                
+                return await response.json();
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+
+        // Load initial data
+        async function loadInitialData() {
+            try {
+                const [clubsData, announcementsData, eventsData] = await Promise.all([
+                    apiCall('/clubs'),
+                    apiCall('/announcements'),
+                    apiCall('/events')
+                ]);
+                
+                database.clubs = clubsData.clubs || [];
+                database.generalAnnouncements = announcementsData.announcements || [];
+                database.generalEvents = eventsData.events || [];
+            } catch (error) {
+                console.error('Failed to load data:', error);
+                showError('Failed to load data. Please refresh the page.');
+            }
+        }
+
+        // Theme
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            document.body.classList.toggle('light');
+        }
+
+        // Error handling
+        function showError(message) {
+            const errorDiv = document.getElementById('loginError');
+            if (errorDiv) {
+                errorDiv.textContent = message;
+                errorDiv.classList.remove('hidden');
+                setTimeout(() => errorDiv.classList.add('hidden'), 5000);
+            } else {
+                alert(message);
+            }
+        }
+
+        // Login
+        async function login(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const loginBtn = document.getElementById('loginBtn');
+            
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Logging in...';
+            
+            try {
+                const data = await apiCall('/auth/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ email, password })
+                });
+                
+                currentUser = data.user;
+                await loadInitialData();
+                
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('mainApp').classList.remove('hidden');
+                showPage('dashboard');
+            } catch (error) {
+                showError(error.message || 'Invalid credentials');
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Login';
+            }
+        }
+
+        // Logout
+        function logout() {
+            currentUser = null;
+            database = { clubs: [], generalAnnouncements: [], generalEvents: [] };
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('mainApp').classList.add('hidden');
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        // Show Page
+        function showPage(page) {
+            document.getElementById('adminDashboard').classList.add('hidden');
+            document.getElementById('memberDashboard').classList.add('hidden');
+            document.getElementById('clubsPage').classList.add('hidden');
+            document.getElementById('profilePage').classList.add('hidden');
+            document.getElementById('calendarPage').classList.add('hidden');
+            
+            if (page === 'dashboard') {
+                if (currentUser.role === 'Admin') {
+                    document.getElementById('adminDashboard').classList.remove('hidden');
+                    renderAdminDashboard();
+                } else {
+                    document.getElementById('memberDashboard').classList.remove('hidden');
+                    renderMemberDashboard();
+                }
+            } else if (page === 'clubs') {
+                document.getElementById('clubsPage').classList.remove('hidden');
+                renderClubs();
+            } else if (page === 'profile') {
+                document.getElementById('profilePage').classList.remove('hidden');
+                renderProfile();
+            } else if (page === 'calendar') {
+                document.getElementById('calendarPage').classList.remove('hidden');
+                renderCalendar();
+            }
+        }
+
+        // Render Admin Dashboard
+        async function renderAdminDashboard() {
+            try {
+                const statsData = await apiCall('/stats');
+                
+                document.getElementById('statsClubs').textContent = `Total Clubs: ${statsData.stats.totalClubs}`;
+                document.getElementById('statsMembers').textContent = `Total Members: ${statsData.stats.totalUsers}`;
+                document.getElementById('statsEvents').textContent = `Total Events: ${statsData.stats.totalEvents}`;
+                
+                const announcementsDiv = document.getElementById('adminAnnouncements');
+                announcementsDiv.innerHTML = '';
+                
+                if (database.generalAnnouncements.length > 0) {
+                    database.generalAnnouncements.slice(0, 3).forEach(ann => {
+                        const div = document.createElement('div');
+                        div.className = 'announcement-item';
+                        div.innerHTML = `
+                            <p class="text-sm">${ann.text}</p>
+                            <p class="text-xs text-gray mt-4">${ann.date}</p>
+                        `;
+                        announcementsDiv.appendChild(div);
+                    });
+                } else {
+                    announcementsDiv.innerHTML = '<p class="text-sm text-gray">No announcements yet.</p>';
+                }
+            } catch (error) {
+                console.error('Failed to render admin dashboard:', error);
+            }
+        }
+
+        // Render Member Dashboard
+        async function renderMemberDashboard() {
+            const clubsDiv = document.getElementById('memberClubs');
+            clubsDiv.innerHTML = '';
+            
+            if (currentUser.clubs && currentUser.clubs.length > 0) {
+                currentUser.clubs.forEach(clubId => {
+                    const club = database.clubs.find(c => c.id === clubId);
+                    if (club) {
+                        const div = document.createElement('div');
+                        div.className = 'club-item';
+                        div.textContent = club.name;
+                        clubsDiv.appendChild(div);
+                    }
+                });
+            } else {
+                clubsDiv.innerHTML = '<p>You haven\'t joined any clubs yet.</p>';
+            }
+            
+            const eventsDiv = document.getElementById('memberEvents');
+            eventsDiv.innerHTML = '';
+            
+            if (database.generalEvents.length > 0) {
+                database.generalEvents.slice(0, 5).forEach(event => {
+                    const div = document.createElement('div');
+                    div.className = 'event-item';
+                    div.innerHTML = `
+                        <p class="mb-2" style="font-weight: 600;">${event.title}</p>
+                        <p class="text-sm text-gray">${event.date}</p>
+                    `;
+                    eventsDiv.appendChild(div);
+                });
+            } else {
+                eventsDiv.innerHTML = '<p class="text-sm text-gray">No upcoming events.</p>';
+            }
+            
+            const announcementsDiv = document.getElementById('memberAnnouncements');
+            announcementsDiv.innerHTML = '';
+            
+            if (database.generalAnnouncements.length > 0) {
+                database.generalAnnouncements.slice(0, 3).forEach(ann => {
+                    const div = document.createElement('div');
+                    div.className = 'announcement-item';
+                    div.innerHTML = `
+                        <p class="text-sm">${ann.text}</p>
+                        <p class="text-xs text-gray mt-4">${ann.date}</p>
+                    `;
+                    announcementsDiv.appendChild(div);
+                });
+            } else {
+                announcementsDiv.innerHTML = '<p class="text-sm text-gray">No announcements yet.</p>';
+            }
+        }
+
+        // Render Clubs
+        function renderClubs() {
+            const grid = document.getElementById('clubsGrid');
+            grid.innerHTML = '';
+            
+            if (database.clubs.length === 0) {
+                grid.innerHTML = '<div class="loading">No clubs available.</div>';
+                return;
+            }
+            
+            database.clubs.forEach(club => {
+                const card = document.createElement('div');
+                card.className = 'card club-card';
+                card.onclick = () => openClubModal(club);
+                card.innerHTML = `
+                    <img src="${club.image}" alt="${club.name}" class="club-image">
+                    <div style="padding: 1rem;">
+                        <h3 class="mb-2" style="font-size: 1.25rem; font-weight: bold;">${club.name}</h3>
+                        <p class="text-sm mb-4">${club.description.substring(0, 100)}...</p>
+                        <div class="flex items-center gap-2 text-sm text-gray">
+                            <span>👥</span>
+                            <span>${club.members ? club.members.length : 0} members</span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Render Profile
+        function renderProfile() {
+            document.getElementById('profileAvatar').textContent = currentUser.email.charAt(0).toUpperCase();
+            document.getElementById('profileName').textContent = currentUser.email.split('@')[0];
+            document.getElementById('profileEmail').textContent = currentUser.email;
+            document.getElementById('profileRole').textContent = `Role: ${currentUser.role}`;
+            
+            const clubsDiv = document.getElementById('profileClubs');
+            clubsDiv.innerHTML = '';
+            
+            if (currentUser.clubs && currentUser.clubs.length > 0) {
+                currentUser.clubs.forEach(clubId => {
+                    const club = database.clubs.find(c => c.id === clubId);
+                    if (club) {
+                        const div = document.createElement('div');
+                        div.className = 'club-item';
+                        div.textContent = club.name;
+                        clubsDiv.appendChild(div);
+                    }
+                });
+            } else {
+                clubsDiv.innerHTML = '<p>You haven\'t joined any clubs yet.</p>';
+            }
+        }
+
+        // Render Calendar
+        function renderCalendar() {
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            document.getElementById('calendarTitle').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            const daysDiv = document.getElementById('calendarDays');
+            daysDiv.innerHTML = '';
+            
+            let date = 1;
+            for (let i = 0; i < 6; i++) {
+                for (let j = 0; j < 7; j++) {
+                    const dayDiv = document.createElement('div');
+                    dayDiv.className = 'calendar-day';
+                    
+                    if (i === 0 && j < firstDay) {
+                        dayDiv.textContent = '';
+                    } else if (date > daysInMonth) {
+                        dayDiv.textContent = '';
+                    } else {
+                        const isToday = date === new Date().getDate() && 
+                                       currentMonth === new Date().getMonth() && 
+                                       currentYear === new Date().getFullYear();
+                        
+                        if (isToday) dayDiv.classList.add('today');
+                        dayDiv.textContent = date;
+                        date++;
+                    }
+                    
+                    daysDiv.appendChild(dayDiv);
+                }
+            }
+        }
+
+        function previousMonth() {
+            if (currentMonth === 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else {
+                currentMonth--;
+            }
+            renderCalendar();
+        }
+
+        function nextMonth() {
+            if (currentMonth === 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else {
+                currentMonth++;
+            }
+            renderCalendar();
+        }
+
+        // Modal Functions
+        function openModal(type) {
+            const modal = document.getElementById('modal');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+            
+            if (type === 'announcement') {
+                title.textContent = 'Post Announcement';
+                body.innerHTML = `
+                    <textarea id="announcementText" class="textarea" rows="6" placeholder="Write your announcement here..."></textarea>
+                    <button onclick="postAnnouncement()" class="btn btn-primary mt-4" style="width: 100%;">Post Announcement</button>
+                `;
+            } else if (type === 'event') {
+                title.textContent = 'Create Event';
+                body.innerHTML = `
+                    <form onsubmit="createEvent(event)">
+                        <div class="form-group">
+                            <label>Event Title</label>
+                            <input type="text" id="eventTitle" class="input" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" id="eventDate" class="input" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="eventDescription" class="textarea" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Assign to Club</label>
+                            <select id="eventClub" class="select">
+                                <option value="general">General Event</option>
+                                ${database.clubs.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Create Event</button>
+                    </form>
+                `;
+            } else if (type === 'createClub') {
+                title.textContent = 'Create New Club';
+                body.innerHTML = `
+                    <form onsubmit="createClub(event)">
+                        <div class="form-group">
+                            <label>Club Name</label>
+                            <input type="text" id="clubName" class="input" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="clubDescription" class="textarea" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Image URL</label>
+                            <input type="url" id="clubImage" class="input" placeholder="https://example.com/image.jpg" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Create Club</button>
+                    </form>
+                `;
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function openClubModal(club) {
+            selectedClub = club;
+            const modal = document.getElementById('modal');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+            
+            title.textContent = 'Club Details';
+            
+            const isMember = currentUser.clubs && currentUser.clubs.includes(club.id);
+            
+            body.innerHTML = `
+                <img src="${club.image}" alt="${club.name}" class="club-image" style="width: 100%; border-radius: 0.5rem; margin-bottom: 1rem;">
+                <h4 class="mb-2" style="font-size: 1.25rem; font-weight: bold;">${club.name}</h4>
+                <p class="mb-4">${club.description}</p>
+                
+                <div class="mb-4">
+                    <h5 style="font-weight: bold; margin-bottom: 0.5rem;">Announcements:</h5>
+                    ${club.announcements && club.announcements.length > 0 
+                        ? club.announcements.map(ann => `
+                            <div class="announcement-item">
+                                <p class="text-sm">${ann.text}</p>
+                                <p class="text-xs text-gray">${ann.date}</p>
+                            </div>
+                        `).join('')
+                        : '<p class="text-sm text-gray">No announcements yet.</p>'
+                    }
+                </div>
+                
+                <div class="mb-4">
+                    <h5 style="font-weight: bold; margin-bottom: 0.5rem;">Events:</h5>
+                    ${club.events && club.events.length > 0 
+                        ? club.events.map(evt => `
+                            <div class="event-item">
+                                <p class="mb-2" style="font-weight: 600;">${evt.title}</p>
+                                <p class="text-sm text-gray">${evt.date}</p>
+                            </div>
+                        `).join('')
+                        : '<p class="text-sm text-gray">No events scheduled.</p>'
+                    }
+                </div>
+                
+                ${!isMember ? `<button onclick="joinClub(${club.id})" class="btn btn-primary" style="width: 100%;">Join Club</button>` : '<p class="text-sm text-gray" style="text-align: center;">✓ You are a member</p>'}
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal(event) {
+            if (event && event.target.id !== 'modal') return;
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        // Action Functions
+        async function postAnnouncement() {
+            const text = document.getElementById('announcementText').value.trim();
+            if (!text) return;
+            
+            try {
+                await apiCall('/announcements', {
+                    method: 'POST',
+                    body: JSON.stringify({ text })
+                });
+                
+                // Reload announcements
+                const announcementsData = await apiCall('/announcements');
+                database.generalAnnouncements = announcementsData.announcements || [];
+                
+                closeModal();
+                alert('Announcement posted!');
+                renderAdminDashboard();
+            } catch (error) {
+                alert(error.message || 'Failed to post announcement');
+            }
+        }
+
+        async function createEvent(e) {
+            e.preventDefault();
+            const title = document.getElementById('eventTitle').value;
+            const date = document.getElementById('eventDate').value;
+            const description = document.getElementById('eventDescription').value;
+            const clubId = document.getElementById('eventClub').value;
+            
+            try {
+                await apiCall('/events', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        title,
+                        date,
+                        description,
+                        clubId: clubId === 'general' ? null : parseInt(clubId)
+                    })
+                });
+                
+                // Reload events and clubs
+                const [eventsData, clubsData] = await Promise.all([
+                    apiCall('/events'),
+                    apiCall('/clubs')
+                ]);
+                database.generalEvents = eventsData.events || [];
+                database.clubs = clubsData.clubs || [];
+                
+                closeModal();
+                alert('Event created!');
+            } catch (error) {
+                alert(error.message || 'Failed to create event');
+            }
+        }
+
+        async function createClub(e) {
+            e.preventDefault();
+            const name = document.getElementById('clubName').value;
+            const description = document.getElementById('clubDescription').value;
+            const image = document.getElementById('clubImage').value;
+            
+            try {
+                await apiCall('/clubs', {
+                    method: 'POST',
+                    body: JSON.stringify({ 
+                        name, 
+                        description, 
+                        image,
+                        adminId: currentUser.id
+                    })
+                });
+                
+                // Reload clubs data
+                const clubsData = await apiCall('/clubs');
+                database.clubs = clubsData.clubs || [];
+                
+                closeModal();
+                alert('Club created!');
+                renderAdminDashboard();
+            } catch (error) {
+                alert(error.message || 'Failed to create club');
+            }
+        }
+
+        async function joinClub(clubId) {
+            try {
+                await apiCall(`/clubs/${clubId}/join`, {
+                    method: 'POST',
+                    body: JSON.stringify({ userId: currentUser.id })
+                });
+                
+                // Update local state
+                if (!currentUser.clubs) currentUser.clubs = [];
+                currentUser.clubs.push(clubId);
+                
+                const club = database.clubs.find(c => c.id === clubId);
+                if (club) {
+                    if (!club.members) club.members = [];
+                    club.members.push(currentUser.id);
+                    alert(`Successfully joined ${club.name}!`);
+                }
+                
+                closeModal();
+                showPage('dashboard');
+            } catch (error) {
+                alert(error.message || 'Failed to join club');
+            }
+        }
+    </script>
+</body>
+</html>

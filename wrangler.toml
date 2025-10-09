@@ -1,0 +1,8 @@
+name = "clubhub"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "public"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "clubhub-db"
+database_id = "53147904-e907-4c94-b1f7-e538f26df224"
