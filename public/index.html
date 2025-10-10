@@ -17,31 +17,37 @@
         }
 
         body.dark {
-            background: linear-gradient(to bottom right, #111827, #1e3a8a, #111827);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
             color: #f3f4f6;
         }
 
         body.light {
-            background: linear-gradient(to bottom right, #f9fafb, #dbeafe, #f9fafb);
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0f9ff 100%);
             color: #111827;
         }
 
         .card {
             border-radius: 1rem;
             padding: 1.5rem;
-            backdrop-filter: blur(16px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
             transition: all 0.3s;
+            border: 1px solid;
         }
 
         body.dark .card {
-            background: rgba(31, 41, 55, 0.5);
-            border: 1px solid #374151;
+            background: rgba(30, 41, 59, 0.6);
+            border-color: #334155;
         }
 
         body.light .card {
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid #e5e7eb;
+            background: rgba(255, 255, 255, 0.9);
+            border-color: #e5e7eb;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 25px 30px -5px rgba(0, 0, 0, 0.3);
         }
 
         .container {
@@ -54,7 +60,8 @@
             position: sticky;
             top: 0;
             z-index: 50;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(20px);
+            margin-bottom: 2rem;
         }
 
         .header-content {
@@ -65,14 +72,17 @@
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #3b82f6;
+            font-size: 1.875rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .nav {
             display: flex;
-            gap: 1rem;
+            gap: 0.5rem;
             align-items: center;
         }
 
@@ -81,46 +91,102 @@
             border: none;
             color: inherit;
             cursor: pointer;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.75rem;
             transition: all 0.3s;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
         }
 
         .nav button:hover {
-            background: rgba(59, 130, 246, 0.2);
-            color: #3b82f6;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+            transform: translateY(-1px);
+        }
+
+        .nav button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+
+        .nav button:hover::after {
+            width: 80%;
         }
 
         .btn {
-            padding: 0.75rem 1.5rem;
+            padding: 0.875rem 1.75rem;
             border: none;
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s;
+            font-size: 0.9375rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: width 0.6s, height 0.6s, top 0.6s, left 0.6s;
+            transform: translate(-50%, -50%);
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .btn-primary {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
         }
 
         .btn-primary:hover {
-            background: #2563eb;
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+            transform: translateY(-2px);
         }
 
         .btn-primary:disabled {
             background: #6b7280;
             cursor: not-allowed;
+            box-shadow: none;
         }
 
         .btn-danger {
-            background: #ef4444;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
         }
 
         .btn-danger:hover {
-            background: #dc2626;
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary:hover {
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+            transform: translateY(-2px);
         }
 
         .grid {
@@ -130,47 +196,56 @@
         }
 
         .grid-3 {
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
         }
 
         .grid-2 {
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
         }
 
         .input, .textarea, .select {
             width: 100%;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            border: 1px solid;
+            padding: 0.875rem 1rem;
+            border-radius: 0.75rem;
+            border: 2px solid;
             transition: all 0.3s;
+            font-size: 0.9375rem;
         }
 
         body.dark .input, body.dark .textarea, body.dark .select {
-            background: #374151;
-            border-color: #4b5563;
+            background: rgba(51, 65, 85, 0.5);
+            border-color: #475569;
             color: #f3f4f6;
         }
 
         body.light .input, body.light .textarea, body.light .select {
-            background: #f3f4f6;
+            background: rgba(249, 250, 251, 0.8);
             border-color: #d1d5db;
             color: #111827;
         }
 
         .input:focus, .textarea:focus, .select:focus {
             outline: none;
-            ring: 2px solid #3b82f6;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         .modal {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
             z-index: 100;
             align-items: center;
             justify-content: center;
             padding: 1rem;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .modal.active {
@@ -182,86 +257,82 @@
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .club-card {
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: all 0.3s;
             overflow: hidden;
         }
 
         .club-card:hover {
-            transform: scale(1.05);
+            transform: translateY(-8px) scale(1.02);
         }
 
         .club-image {
             width: 100%;
-            height: 12rem;
+            height: 14rem;
             object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .club-card:hover .club-image {
+            transform: scale(1.1);
         }
 
         .avatar {
             width: 6rem;
             height: 6rem;
-            background: #3b82f6;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: bold;
             color: white;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
         }
 
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 0.5rem;
-        }
-
-        .calendar-day {
-            padding: 1rem;
+        .stat-card {
             text-align: center;
-            cursor: pointer;
-            border-radius: 0.5rem;
-            transition: background 0.3s;
+            padding: 2rem;
+            border-radius: 1rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border: 2px solid;
+            border-color: rgba(59, 130, 246, 0.3);
         }
 
-        .calendar-day:hover {
-            background: rgba(59, 130, 246, 0.2);
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .calendar-day.today {
-            background: #3b82f6;
-            color: white;
-            font-weight: bold;
-        }
-
-        .calendar-header {
+        .stat-label {
+            font-size: 1rem;
             font-weight: 600;
-            color: #3b82f6;
-            padding: 0.5rem;
+            color: #9ca3af;
+            margin-top: 0.5rem;
         }
 
         .hidden {
-            display: none;
-        }
-
-        .icon {
-            width: 20px;
-            height: 20px;
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
+            display: none !important;
         }
 
         .login-container {
@@ -270,78 +341,132 @@
         }
 
         .title {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #3b82f6;
+            font-size: 2.25rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 1.5rem;
         }
 
         .announcement-item, .event-item, .club-item {
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            margin-bottom: 0.5rem;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s;
+            border: 1px solid;
         }
 
         body.dark .announcement-item, body.dark .event-item, body.dark .club-item {
-            background: #374151;
+            background: rgba(51, 65, 85, 0.5);
+            border-color: #475569;
         }
 
         body.light .announcement-item, body.light .event-item, body.light .club-item {
-            background: #f3f4f6;
+            background: rgba(249, 250, 251, 0.9);
+            border-color: #e5e7eb;
         }
 
-        .text-sm {
-            font-size: 0.875rem;
+        .announcement-item:hover, .event-item:hover, .club-item:hover {
+            transform: translateX(4px);
+            border-color: #3b82f6;
         }
 
-        .text-xs {
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
             font-size: 0.75rem;
-        }
-
-        .text-gray {
-            color: #9ca3af;
-        }
-
-        .mb-2 {
-            margin-bottom: 0.5rem;
-        }
-
-        .mb-4 {
-            margin-bottom: 1rem;
-        }
-
-        .mt-4 {
-            margin-top: 1rem;
-        }
-
-        .flex {
-            display: flex;
-        }
-
-        .items-center {
-            align-items: center;
-        }
-
-        .gap-2 {
-            gap: 0.5rem;
-        }
-
-        .gap-6 {
-            gap: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
         }
 
         .loading {
             text-align: center;
-            padding: 2rem;
+            padding: 3rem;
             color: #9ca3af;
+            font-size: 1.125rem;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        .error, .success {
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            animation: slideDown 0.3s;
+        }
+
+        @keyframes slideDown {
+            from { 
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .error {
-            background: #ef4444;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
-            padding: 1rem;
-            border-radius: 0.5rem;
+        }
+
+        .success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #9ca3af;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
             margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .grid-3, .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav {
+                flex-wrap: wrap;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
         }
     </style>
 </head>
@@ -349,26 +474,31 @@
     <!-- Login Page -->
     <div id="loginPage" class="login-container">
         <div class="card">
-            <div class="flex items-center" style="justify-content: space-between; margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                 <h1 class="logo">ClubHub</h1>
                 <button onclick="toggleTheme()" class="btn">🌙</button>
             </div>
             
             <div id="loginError" class="error hidden"></div>
+            <div id="loginSuccess" class="success hidden"></div>
             
             <form onsubmit="login(event)">
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="loginEmail" class="input" required>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email</label>
+                    <input type="email" id="loginEmail" class="input" placeholder="your@email.com" required>
                 </div>
                 
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="loginPassword" class="input" required>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Password</label>
+                    <input type="password" id="loginPassword" class="input" placeholder="••••••••" required>
                 </div>
                 
                 <button type="submit" id="loginBtn" class="btn btn-primary" style="width: 100%;">Login</button>
             </form>
+            
+            <p style="text-align: center; margin-top: 1rem; color: #9ca3af; font-size: 0.875rem;">
+                Default: AdminLupak@gmail.com / AdminLupak
+            </p>
         </div>
     </div>
 
@@ -380,37 +510,52 @@
                 <h1 class="logo">ClubHub</h1>
                 
                 <nav class="nav">
-                    <button onclick="showPage('dashboard')">Dashboard</button>
-                    <button onclick="showPage('clubs')">Clubs</button>
-                    <button onclick="showPage('profile')">Profile</button>
+                    <button onclick="showPage('dashboard')">📊 Dashboard</button>
+                    <button onclick="showPage('clubs')">🎭 Clubs</button>
+                    <button onclick="showPage('profile')">👤 Profile</button>
                     <button onclick="toggleTheme()">🌙</button>
                     <button onclick="logout()" class="btn btn-danger">Logout</button>
                 </nav>
             </div>
         </header>
 
-        <main class="container" style="padding-top: 2rem;">
+        <main class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
             <!-- Admin Dashboard -->
             <div id="adminDashboard" class="hidden">
-                <h2 class="title">Admin Dashboard</h2>
+                <div class="section-header">
+                    <h2 class="title">Admin Dashboard</h2>
+                    <span class="badge">Administrator</span>
+                </div>
                 
-                <div class="grid grid-3">
+                <div class="grid grid-3" style="margin-bottom: 2rem;">
+                    <div class="stat-card">
+                        <div class="stat-number" id="statsClubs">0</div>
+                        <div class="stat-label">Total Clubs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="statsMembers">0</div>
+                        <div class="stat-label">Total Members</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="statsEvents">0</div>
+                        <div class="stat-label">Total Events</div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-2">
                     <div class="card">
-                        <h3 class="mb-4" style="font-size: 1.25rem; font-weight: bold;">Statistics</h3>
-                        <p id="statsClubs">Total Clubs: 0</p>
-                        <p id="statsMembers">Total Members: 0</p>
-                        <p id="statsEvents">Total Events: 0</p>
+                        <div class="section-header">
+                            <h3 style="font-size: 1.25rem; font-weight: bold;">Quick Actions</h3>
+                        </div>
+                        <button onclick="openModal('createClub')" class="btn btn-primary" style="width: 100%; margin-bottom: 0.75rem;">➕ Create Club</button>
+                        <button onclick="openModal('announcement')" class="btn btn-secondary" style="width: 100%; margin-bottom: 0.75rem;">📢 Post Announcement</button>
+                        <button onclick="openModal('event')" class="btn btn-primary" style="width: 100%;">📅 Create Event</button>
                     </div>
                     
                     <div class="card">
-                        <h3 class="mb-4" style="font-size: 1.25rem; font-weight: bold;">Quick Actions</h3>
-                        <button onclick="openModal('createClub')" class="btn btn-primary mb-2" style="width: 100%;">Create Club</button>
-                        <button onclick="openModal('announcement')" class="btn btn-primary mb-2" style="width: 100%;">Post Announcement</button>
-                        <button onclick="openModal('event')" class="btn btn-primary" style="width: 100%;">Create Event</button>
-                    </div>
-                    
-                    <div class="card">
-                        <h3 class="mb-4" style="font-size: 1.25rem; font-weight: bold;">Announcements</h3>
+                        <div class="section-header">
+                            <h3 style="font-size: 1.25rem; font-weight: bold;">Recent Announcements</h3>
+                        </div>
                         <div id="adminAnnouncements"></div>
                     </div>
                 </div>
@@ -418,23 +563,31 @@
 
             <!-- Member Dashboard -->
             <div id="memberDashboard" class="hidden">
-                <h2 class="title">Member Dashboard</h2>
+                <div class="section-header">
+                    <h2 class="title">Member Dashboard</h2>
+                    <span class="badge">Member</span>
+                </div>
                 
                 <div class="grid grid-2">
                     <div class="card">
-                        <h3 class="mb-4" style="font-size: 1.25rem; font-weight: bold;">My Clubs</h3>
+                        <div class="section-header">
+                            <h3 style="font-size: 1.25rem; font-weight: bold;">My Clubs</h3>
+                        </div>
                         <div id="memberClubs"></div>
-                        <button onclick="showPage('clubs')" class="btn btn-primary mt-4" style="width: 100%;">Browse Clubs</button>
+                        <button onclick="showPage('clubs')" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">🔍 Browse Clubs</button>
                     </div>
                     
                     <div class="card">
-                        <h3 class="mb-4" style="font-size: 1.25rem; font-weight: bold;">Upcoming Events</h3>
+                        <div class="section-header">
+                            <h3 style="font-size: 1.25rem; font-weight: bold;">Upcoming Events</h3>
+                        </div>
                         <div id="memberEvents"></div>
-                        <button onclick="showPage('calendar')" class="btn btn-primary mt-4" style="width: 100%;">View Calendar</button>
                     </div>
                     
                     <div class="card">
-                        <h3 class="mb-4" style="font-size: 1.25rem; font-weight: bold;">Announcements</h3>
+                        <div class="section-header">
+                            <h3 style="font-size: 1.25rem; font-weight: bold;">Announcements</h3>
+                        </div>
                         <div id="memberAnnouncements"></div>
                     </div>
                 </div>
@@ -445,7 +598,7 @@
                 <h2 class="title">Clubs Directory</h2>
                 
                 <div id="clubsGrid" class="grid grid-3">
-                    <div class="loading">Loading clubs...</div>
+                    <div class="loading">Loading clubs</div>
                 </div>
             </div>
 
@@ -454,43 +607,19 @@
                 <h2 class="title">My Profile</h2>
                 
                 <div class="card" style="max-width: 42rem; margin: 0 auto;">
-                    <div class="flex items-center gap-6 mb-4">
+                    <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem;">
                         <div class="avatar" id="profileAvatar">A</div>
                         <div>
-                            <h3 id="profileName" style="font-size: 1.5rem; font-weight: bold;">User</h3>
-                            <p id="profileEmail" class="text-gray">email@example.com</p>
-                            <p id="profileRole" style="color: #3b82f6; font-weight: 600; margin-top: 0.25rem;">Role: Member</p>
+                            <h3 id="profileName" style="font-size: 1.75rem; font-weight: bold; margin-bottom: 0.25rem;">User</h3>
+                            <p id="profileEmail" style="color: #9ca3af; margin-bottom: 0.5rem;">email@example.com</p>
+                            <span id="profileRole" class="badge">Member</span>
                         </div>
                     </div>
                     
                     <div>
-                        <h4 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 0.75rem;">My Clubs</h4>
+                        <h4 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">My Clubs</h4>
                         <div id="profileClubs"></div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Calendar Page -->
-            <div id="calendarPage" class="hidden">
-                <h2 class="title">Calendar</h2>
-                
-                <div class="card">
-                    <div class="flex items-center" style="justify-content: space-between; margin-bottom: 1rem;">
-                        <button onclick="previousMonth()" class="btn">‹</button>
-                        <h3 id="calendarTitle" style="font-size: 1.25rem; font-weight: bold; color: #3b82f6;">Month Year</h3>
-                        <button onclick="nextMonth()" class="btn">›</button>
-                    </div>
-                    
-                    <div class="calendar">
-                        <div class="calendar-header">Sun</div>
-                        <div class="calendar-header">Mon</div>
-                        <div class="calendar-header">Tue</div>
-                        <div class="calendar-header">Wed</div>
-                        <div class="calendar-header">Thu</div>
-                        <div class="calendar-header">Fri</div>
-                        <div class="calendar-header">Sat</div>
-                    </div>
-                    <div id="calendarDays" class="calendar"></div>
                 </div>
             </div>
         </main>
@@ -499,9 +628,9 @@
     <!-- Modal -->
     <div id="modal" class="modal" onclick="closeModal(event)">
         <div class="modal-content card" onclick="event.stopPropagation()">
-            <div class="flex items-center" style="justify-content: space-between; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                 <h3 id="modalTitle" style="font-size: 1.5rem; font-weight: bold;">Modal</h3>
-                <button onclick="closeModal()" class="btn">✕</button>
+                <button onclick="closeModal()" class="btn" style="padding: 0.5rem 1rem;">✕</button>
             </div>
             
             <div id="modalBody"></div>
@@ -509,10 +638,11 @@
     </div>
 
     <script>
-        // API Configuration
-        const API_BASE_URL = '/api';
+        // API Configuration - automatically uses your Cloudflare Pages domain
+        const API_BASE_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:8788/api'  // For local development
+            : '/api';  // For production (Cloudflare Pages)
 
-        // State
         let database = {
             clubs: [],
             generalAnnouncements: [],
@@ -520,13 +650,12 @@
         };
 
         let currentUser = null;
-        let currentMonth = new Date().getMonth();
-        let currentYear = new Date().getFullYear();
-        let selectedClub = null;
 
-        // API Helper Functions
+        // API Helper
         async function apiCall(endpoint, options = {}) {
             try {
+                console.log(`API Call: ${endpoint}`, options);
+                
                 const response = await fetch(`${API_BASE_URL}${endpoint}`, {
                     ...options,
                     headers: {
@@ -535,19 +664,20 @@
                     }
                 });
                 
+                const data = await response.json();
+                console.log(`API Response:`, data);
+                
                 if (!response.ok) {
-                    const error = await response.json();
-                    throw new Error(error.error || 'API request failed');
+                    throw new Error(data.error || `HTTP ${response.status}`);
                 }
                 
-                return await response.json();
+                return data;
             } catch (error) {
                 console.error('API Error:', error);
                 throw error;
             }
         }
 
-        // Load initial data
         async function loadInitialData() {
             try {
                 const [clubsData, announcementsData, eventsData] = await Promise.all([
@@ -559,31 +689,31 @@
                 database.clubs = clubsData.clubs || [];
                 database.generalAnnouncements = announcementsData.announcements || [];
                 database.generalEvents = eventsData.events || [];
+                
+                console.log('Loaded data:', database);
             } catch (error) {
                 console.error('Failed to load data:', error);
-                showError('Failed to load data. Please refresh the page.');
+                showMessage('Failed to load data. Please refresh.', 'error');
             }
         }
 
-        // Theme
         function toggleTheme() {
             document.body.classList.toggle('dark');
             document.body.classList.toggle('light');
         }
 
-        // Error handling
-        function showError(message) {
-            const errorDiv = document.getElementById('loginError');
-            if (errorDiv) {
-                errorDiv.textContent = message;
-                errorDiv.classList.remove('hidden');
-                setTimeout(() => errorDiv.classList.add('hidden'), 5000);
+        function showMessage(message, type = 'error') {
+            const id = type === 'error' ? 'loginError' : 'loginSuccess';
+            const el = document.getElementById(id);
+            if (el) {
+                el.textContent = message;
+                el.classList.remove('hidden');
+                setTimeout(() => el.classList.add('hidden'), 5000);
             } else {
                 alert(message);
             }
         }
 
-        // Login
         async function login(e) {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
@@ -600,20 +730,21 @@
                 });
                 
                 currentUser = data.user;
+                console.log('Logged in user:', currentUser);
+                
                 await loadInitialData();
                 
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('mainApp').classList.remove('hidden');
                 showPage('dashboard');
             } catch (error) {
-                showError(error.message || 'Invalid credentials');
+                showMessage(error.message || 'Invalid credentials', 'error');
             } finally {
                 loginBtn.disabled = false;
                 loginBtn.textContent = 'Login';
             }
         }
 
-        // Logout
         function logout() {
             currentUser = null;
             database = { clubs: [], generalAnnouncements: [], generalEvents: [] };
@@ -623,13 +754,11 @@
             document.getElementById('loginPassword').value = '';
         }
 
-        // Show Page
         function showPage(page) {
             document.getElementById('adminDashboard').classList.add('hidden');
             document.getElementById('memberDashboard').classList.add('hidden');
             document.getElementById('clubsPage').classList.add('hidden');
             document.getElementById('profilePage').classList.add('hidden');
-            document.getElementById('calendarPage').classList.add('hidden');
             
             if (page === 'dashboard') {
                 if (currentUser.role === 'Admin') {
@@ -645,20 +774,16 @@
             } else if (page === 'profile') {
                 document.getElementById('profilePage').classList.remove('hidden');
                 renderProfile();
-            } else if (page === 'calendar') {
-                document.getElementById('calendarPage').classList.remove('hidden');
-                renderCalendar();
             }
         }
 
-        // Render Admin Dashboard
         async function renderAdminDashboard() {
             try {
                 const statsData = await apiCall('/stats');
                 
-                document.getElementById('statsClubs').textContent = `Total Clubs: ${statsData.stats.totalClubs}`;
-                document.getElementById('statsMembers').textContent = `Total Members: ${statsData.stats.totalUsers}`;
-                document.getElementById('statsEvents').textContent = `Total Events: ${statsData.stats.totalEvents}`;
+                document.getElementById('statsClubs').textContent = statsData.stats.totalClubs;
+                document.getElementById('statsMembers').textContent = statsData.stats.totalUsers;
+                document.getElementById('statsEvents').textContent = statsData.stats.totalEvents;
                 
                 const announcementsDiv = document.getElementById('adminAnnouncements');
                 announcementsDiv.innerHTML = '';
@@ -668,21 +793,20 @@
                         const div = document.createElement('div');
                         div.className = 'announcement-item';
                         div.innerHTML = `
-                            <p class="text-sm">${ann.text}</p>
-                            <p class="text-xs text-gray mt-4">${ann.date}</p>
+                            <p style="font-weight: 500;">${ann.text}</p>
+                            <p style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.5rem;">📅 ${ann.date}</p>
                         `;
                         announcementsDiv.appendChild(div);
                     });
                 } else {
-                    announcementsDiv.innerHTML = '<p class="text-sm text-gray">No announcements yet.</p>';
+                    announcementsDiv.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📢</div><p>No announcements yet</p></div>';
                 }
             } catch (error) {
                 console.error('Failed to render admin dashboard:', error);
             }
         }
 
-        // Render Member Dashboard
-        async function renderMemberDashboard() {
+        function renderMemberDashboard() {
             const clubsDiv = document.getElementById('memberClubs');
             clubsDiv.innerHTML = '';
             
@@ -692,12 +816,15 @@
                     if (club) {
                         const div = document.createElement('div');
                         div.className = 'club-item';
-                        div.textContent = club.name;
+                        div.innerHTML = `
+                            <strong>${club.name}</strong>
+                            <p style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.25rem;">👥 ${club.members ? club.members.length : 0} members</p>
+                        `;
                         clubsDiv.appendChild(div);
                     }
                 });
             } else {
-                clubsDiv.innerHTML = '<p>You haven\'t joined any clubs yet.</p>';
+                clubsDiv.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🎭</div><p>You haven\'t joined any clubs yet</p></div>';
             }
             
             const eventsDiv = document.getElementById('memberEvents');
@@ -708,13 +835,13 @@
                     const div = document.createElement('div');
                     div.className = 'event-item';
                     div.innerHTML = `
-                        <p class="mb-2" style="font-weight: 600;">${event.title}</p>
-                        <p class="text-sm text-gray">${event.date}</p>
+                        <p style="font-weight: 600;">📅 ${event.title}</p>
+                        <p style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.25rem;">${event.date}</p>
                     `;
                     eventsDiv.appendChild(div);
                 });
             } else {
-                eventsDiv.innerHTML = '<p class="text-sm text-gray">No upcoming events.</p>';
+                eventsDiv.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📅</div><p>No upcoming events</p></div>';
             }
             
             const announcementsDiv = document.getElementById('memberAnnouncements');
@@ -725,23 +852,22 @@
                     const div = document.createElement('div');
                     div.className = 'announcement-item';
                     div.innerHTML = `
-                        <p class="text-sm">${ann.text}</p>
-                        <p class="text-xs text-gray mt-4">${ann.date}</p>
+                        <p style="font-weight: 500;">${ann.text}</p>
+                        <p style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.5rem;">📅 ${ann.date}</p>
                     `;
                     announcementsDiv.appendChild(div);
                 });
             } else {
-                announcementsDiv.innerHTML = '<p class="text-sm text-gray">No announcements yet.</p>';
+                announcementsDiv.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📢</div><p>No announcements yet</p></div>';
             }
         }
 
-        // Render Clubs
         function renderClubs() {
             const grid = document.getElementById('clubsGrid');
             grid.innerHTML = '';
             
             if (database.clubs.length === 0) {
-                grid.innerHTML = '<div class="loading">No clubs available.</div>';
+                grid.innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;"><div class="empty-state-icon">🎭</div><p>No clubs available yet</p></div>';
                 return;
             }
             
@@ -750,13 +876,13 @@
                 card.className = 'card club-card';
                 card.onclick = () => openClubModal(club);
                 card.innerHTML = `
-                    <img src="${club.image}" alt="${club.name}" class="club-image">
-                    <div style="padding: 1rem;">
-                        <h3 class="mb-2" style="font-size: 1.25rem; font-weight: bold;">${club.name}</h3>
-                        <p class="text-sm mb-4">${club.description.substring(0, 100)}...</p>
-                        <div class="flex items-center gap-2 text-sm text-gray">
-                            <span>👥</span>
-                            <span>${club.members ? club.members.length : 0} members</span>
+                    <img src="${club.image}" alt="${club.name}" class="club-image" style="border-radius: 0.75rem 0.75rem 0 0; margin: -1.5rem -1.5rem 1rem -1.5rem;">
+                    <div>
+                        <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">${club.name}</h3>
+                        <p style="color: #9ca3af; margin-bottom: 1rem;">${club.description.substring(0, 120)}...</p>
+                        <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.875rem;">
+                            <span style="color: #9ca3af;">👥 ${club.members ? club.members.length : 0} members</span>
+                            <span style="color: #9ca3af;">📅 ${club.events ? club.events.length : 0} events</span>
                         </div>
                     </div>
                 `;
@@ -764,12 +890,11 @@
             });
         }
 
-        // Render Profile
         function renderProfile() {
             document.getElementById('profileAvatar').textContent = currentUser.email.charAt(0).toUpperCase();
             document.getElementById('profileName').textContent = currentUser.email.split('@')[0];
             document.getElementById('profileEmail').textContent = currentUser.email;
-            document.getElementById('profileRole').textContent = `Role: ${currentUser.role}`;
+            document.getElementById('profileRole').textContent = currentUser.role;
             
             const clubsDiv = document.getElementById('profileClubs');
             clubsDiv.innerHTML = '';
@@ -780,101 +905,47 @@
                     if (club) {
                         const div = document.createElement('div');
                         div.className = 'club-item';
-                        div.textContent = club.name;
+                        div.innerHTML = `
+                            <strong>${club.name}</strong>
+                            <p style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.25rem;">👥 ${club.members ? club.members.length : 0} members</p>
+                        `;
                         clubsDiv.appendChild(div);
                     }
                 });
             } else {
-                clubsDiv.innerHTML = '<p>You haven\'t joined any clubs yet.</p>';
+                clubsDiv.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🎭</div><p>You haven\'t joined any clubs yet</p></div>';
             }
         }
 
-        // Render Calendar
-        function renderCalendar() {
-            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            document.getElementById('calendarTitle').textContent = `${monthNames[currentMonth]} ${currentYear}`;
-            
-            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-            
-            const daysDiv = document.getElementById('calendarDays');
-            daysDiv.innerHTML = '';
-            
-            let date = 1;
-            for (let i = 0; i < 6; i++) {
-                for (let j = 0; j < 7; j++) {
-                    const dayDiv = document.createElement('div');
-                    dayDiv.className = 'calendar-day';
-                    
-                    if (i === 0 && j < firstDay) {
-                        dayDiv.textContent = '';
-                    } else if (date > daysInMonth) {
-                        dayDiv.textContent = '';
-                    } else {
-                        const isToday = date === new Date().getDate() && 
-                                       currentMonth === new Date().getMonth() && 
-                                       currentYear === new Date().getFullYear();
-                        
-                        if (isToday) dayDiv.classList.add('today');
-                        dayDiv.textContent = date;
-                        date++;
-                    }
-                    
-                    daysDiv.appendChild(dayDiv);
-                }
-            }
-        }
-
-        function previousMonth() {
-            if (currentMonth === 0) {
-                currentMonth = 11;
-                currentYear--;
-            } else {
-                currentMonth--;
-            }
-            renderCalendar();
-        }
-
-        function nextMonth() {
-            if (currentMonth === 11) {
-                currentMonth = 0;
-                currentYear++;
-            } else {
-                currentMonth++;
-            }
-            renderCalendar();
-        }
-
-        // Modal Functions
         function openModal(type) {
             const modal = document.getElementById('modal');
             const title = document.getElementById('modalTitle');
             const body = document.getElementById('modalBody');
             
             if (type === 'announcement') {
-                title.textContent = 'Post Announcement';
+                title.textContent = '📢 Post Announcement';
                 body.innerHTML = `
-                    <textarea id="announcementText" class="textarea" rows="6" placeholder="Write your announcement here..."></textarea>
-                    <button onclick="postAnnouncement()" class="btn btn-primary mt-4" style="width: 100%;">Post Announcement</button>
+                    <textarea id="announcementText" class="textarea" rows="6" placeholder="Write your announcement here..." style="margin-bottom: 1rem;"></textarea>
+                    <button onclick="postAnnouncement()" class="btn btn-primary" style="width: 100%;">Post Announcement</button>
                 `;
             } else if (type === 'event') {
-                title.textContent = 'Create Event';
+                title.textContent = '📅 Create Event';
                 body.innerHTML = `
                     <form onsubmit="createEvent(event)">
-                        <div class="form-group">
-                            <label>Event Title</label>
-                            <input type="text" id="eventTitle" class="input" required>
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Event Title</label>
+                            <input type="text" id="eventTitle" class="input" placeholder="Annual Tech Summit" required>
                         </div>
-                        <div class="form-group">
-                            <label>Date</label>
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Date</label>
                             <input type="date" id="eventDate" class="input" required>
                         </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea id="eventDescription" class="textarea" rows="4" required></textarea>
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Description</label>
+                            <textarea id="eventDescription" class="textarea" rows="4" placeholder="Describe the event..." required></textarea>
                         </div>
-                        <div class="form-group">
-                            <label>Assign to Club</label>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Assign to Club</label>
                             <select id="eventClub" class="select">
                                 <option value="general">General Event</option>
                                 ${database.clubs.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
@@ -884,19 +955,19 @@
                     </form>
                 `;
             } else if (type === 'createClub') {
-                title.textContent = 'Create New Club';
+                title.textContent = '➕ Create New Club';
                 body.innerHTML = `
                     <form onsubmit="createClub(event)">
-                        <div class="form-group">
-                            <label>Club Name</label>
-                            <input type="text" id="clubName" class="input" required>
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Club Name</label>
+                            <input type="text" id="clubName" class="input" placeholder="Photography Club" required>
                         </div>
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea id="clubDescription" class="textarea" rows="4" required></textarea>
+                        <div style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Description</label>
+                            <textarea id="clubDescription" class="textarea" rows="4" placeholder="Describe your club..." required></textarea>
                         </div>
-                        <div class="form-group">
-                            <label>Image URL</label>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Image URL</label>
                             <input type="url" id="clubImage" class="input" placeholder="https://example.com/image.jpg" required>
                         </div>
                         <button type="submit" class="btn btn-primary" style="width: 100%;">Create Club</button>
@@ -908,47 +979,49 @@
         }
 
         function openClubModal(club) {
-            selectedClub = club;
             const modal = document.getElementById('modal');
             const title = document.getElementById('modalTitle');
             const body = document.getElementById('modalBody');
             
-            title.textContent = 'Club Details';
+            title.textContent = club.name;
             
             const isMember = currentUser.clubs && currentUser.clubs.includes(club.id);
             
             body.innerHTML = `
-                <img src="${club.image}" alt="${club.name}" class="club-image" style="width: 100%; border-radius: 0.5rem; margin-bottom: 1rem;">
-                <h4 class="mb-2" style="font-size: 1.25rem; font-weight: bold;">${club.name}</h4>
-                <p class="mb-4">${club.description}</p>
+                <img src="${club.image}" alt="${club.name}" style="width: 100%; height: 16rem; object-fit: cover; border-radius: 0.75rem; margin-bottom: 1.5rem;">
+                <p style="color: #9ca3af; margin-bottom: 1.5rem; line-height: 1.6;">${club.description}</p>
                 
-                <div class="mb-4">
-                    <h5 style="font-weight: bold; margin-bottom: 0.5rem;">Announcements:</h5>
+                <div style="margin-bottom: 1.5rem;">
+                    <h5 style="font-weight: bold; font-size: 1.125rem; margin-bottom: 0.75rem;">📢 Announcements</h5>
                     ${club.announcements && club.announcements.length > 0 
                         ? club.announcements.map(ann => `
                             <div class="announcement-item">
-                                <p class="text-sm">${ann.text}</p>
-                                <p class="text-xs text-gray">${ann.date}</p>
+                                <p style="font-weight: 500;">${ann.text}</p>
+                                <p style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.5rem;">📅 ${ann.date}</p>
                             </div>
                         `).join('')
-                        : '<p class="text-sm text-gray">No announcements yet.</p>'
+                        : '<p style="color: #9ca3af; font-size: 0.875rem;">No announcements yet</p>'
                     }
                 </div>
                 
-                <div class="mb-4">
-                    <h5 style="font-weight: bold; margin-bottom: 0.5rem;">Events:</h5>
+                <div style="margin-bottom: 1.5rem;">
+                    <h5 style="font-weight: bold; font-size: 1.125rem; margin-bottom: 0.75rem;">📅 Events</h5>
                     ${club.events && club.events.length > 0 
                         ? club.events.map(evt => `
                             <div class="event-item">
-                                <p class="mb-2" style="font-weight: 600;">${evt.title}</p>
-                                <p class="text-sm text-gray">${evt.date}</p>
+                                <p style="font-weight: 600;">${evt.title}</p>
+                                <p style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.25rem;">${evt.description}</p>
+                                <p style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem;">📅 ${evt.date}</p>
                             </div>
                         `).join('')
-                        : '<p class="text-sm text-gray">No events scheduled.</p>'
+                        : '<p style="color: #9ca3af; font-size: 0.875rem;">No events scheduled</p>'
                     }
                 </div>
                 
-                ${!isMember ? `<button onclick="joinClub(${club.id})" class="btn btn-primary" style="width: 100%;">Join Club</button>` : '<p class="text-sm text-gray" style="text-align: center;">✓ You are a member</p>'}
+                ${!isMember 
+                    ? `<button onclick="joinClub(${club.id})" class="btn btn-primary" style="width: 100%;">Join Club</button>` 
+                    : `<div style="text-align: center; padding: 1rem; background: rgba(16, 185, 129, 0.1); border-radius: 0.75rem; color: #10b981; font-weight: 600;">✓ You are a member of this club</div>`
+                }
             `;
             
             modal.classList.add('active');
@@ -959,10 +1032,12 @@
             document.getElementById('modal').classList.remove('active');
         }
 
-        // Action Functions
         async function postAnnouncement() {
             const text = document.getElementById('announcementText').value.trim();
-            if (!text) return;
+            if (!text) {
+                alert('Please enter announcement text');
+                return;
+            }
             
             try {
                 await apiCall('/announcements', {
@@ -970,12 +1045,11 @@
                     body: JSON.stringify({ text })
                 });
                 
-                // Reload announcements
                 const announcementsData = await apiCall('/announcements');
                 database.generalAnnouncements = announcementsData.announcements || [];
                 
                 closeModal();
-                alert('Announcement posted!');
+                showMessage('Announcement posted successfully!', 'success');
                 renderAdminDashboard();
             } catch (error) {
                 alert(error.message || 'Failed to post announcement');
@@ -1000,7 +1074,6 @@
                     })
                 });
                 
-                // Reload events and clubs
                 const [eventsData, clubsData] = await Promise.all([
                     apiCall('/events'),
                     apiCall('/clubs')
@@ -1009,7 +1082,8 @@
                 database.clubs = clubsData.clubs || [];
                 
                 closeModal();
-                alert('Event created!');
+                showMessage('Event created successfully!', 'success');
+                showPage('dashboard');
             } catch (error) {
                 alert(error.message || 'Failed to create event');
             }
@@ -1032,12 +1106,11 @@
                     })
                 });
                 
-                // Reload clubs data
                 const clubsData = await apiCall('/clubs');
                 database.clubs = clubsData.clubs || [];
                 
                 closeModal();
-                alert('Club created!');
+                showMessage('Club created successfully!', 'success');
                 renderAdminDashboard();
             } catch (error) {
                 alert(error.message || 'Failed to create club');
@@ -1051,7 +1124,6 @@
                     body: JSON.stringify({ userId: currentUser.id })
                 });
                 
-                // Update local state
                 if (!currentUser.clubs) currentUser.clubs = [];
                 currentUser.clubs.push(clubId);
                 
@@ -1059,10 +1131,10 @@
                 if (club) {
                     if (!club.members) club.members = [];
                     club.members.push(currentUser.id);
-                    alert(`Successfully joined ${club.name}!`);
                 }
                 
                 closeModal();
+                showMessage(`Successfully joined ${club ? club.name : 'the club'}!`, 'success');
                 showPage('dashboard');
             } catch (error) {
                 alert(error.message || 'Failed to join club');
