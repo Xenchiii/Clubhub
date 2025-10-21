@@ -453,6 +453,150 @@
             font-size: 1.5rem;
             font-weight: 700;
         }
+        /* Signup Modal */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: fadeIn 0.3s;
+}
+
+body.dark a {
+    color: #60a5fa;
+}
+
+body.dark a:hover {
+    text-decoration: underline;
+}
+
+
+/* Modal Transition */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal.active {
+    display: flex;
+}
+
+/* Signup Card */
+.card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+/* Title for the Signup Form */
+.title {
+    font-size: 2.25rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+}
+
+/* Form Inputs */
+.input {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 2px solid;
+    transition: all 0.3s;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+    transform: translateY(-2px);
+}
+
+.btn-primary:disabled {
+    background: #6b7280;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Text for Login Redirect */
+.text-center {
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+.text-blue-500 {
+    color: #3b82f6;
+}
+
+.text-blue-500:hover {
+    text-decoration: underline;
+}
+.label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  color: #f3f4f6;
+}
+
+.textarea, .input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  border: 2px solid rgba(255,255,255,0.1);
+  background: rgba(30,41,59,0.5);
+  color: #f3f4f6;
+  font-size: 0.9375rem;
+}
+#leader-dashboard section {
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--card-bg, #222);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+#membership-section {
+  background-color: #2b2b2b;
+}
+
+#members-section {
+  background-color: #1f1f1f;
+}
+
+#announcements-section {
+  background-color: #262626;
+}
+
+
 
         @media (max-width: 768px) {
             .grid-3, .grid-2 {
@@ -476,7 +620,7 @@
         <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
                 <h1 class="logo">ClubHub</h1>
-                <button onclick="toggleTheme()" class="btn">🌙</button>
+                <button onclick="toggleTheme()" class="btn">☾</button>
             </div>
             
             <div id="loginError" class="error hidden"></div>
@@ -496,11 +640,56 @@
                 <button type="submit" id="loginBtn" class="btn btn-primary" style="width: 100%;">Login</button>
             </form>
             
-            <p style="text-align: center; margin-top: 1rem; color: #9ca3af; font-size: 0.875rem;">
-                Default: AdminLupak@gmail.com / AdminLupak
+            <p style="margin-top: 1rem; text-align: center;">
+            Don't have an account? 
+             <a href="#" onclick="showSignup()">Sign Up</a>
             </p>
+
+            
+            
         </div>
     </div>
+    <!-- Signup Page -->
+<div id="signupPage" class="login-container hidden">
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h1 class="logo">ClubHub</h1>
+            <button onclick="toggleTheme()" class="btn">🌘</button>
+        </div>
+
+        <div id="signupError" class="error hidden"></div>
+        <div id="signupSuccess" class="success hidden"></div>
+
+        <form id="signupForm" onsubmit="signup(event)">
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Full Name</label>
+                <input type="text" id="signupName" class="input" placeholder="Your Name" required>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Student ID</label>
+                <input type="text" id="signupStudentID" class="input" placeholder="12345678" required>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email</label>
+                <input type="email" id="signupEmail" class="input" placeholder="your@email.com" required>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Password</label>
+                <input type="password" id="signupPassword" class="input" placeholder="••••••••" required>
+            </div>
+
+            <button id="signupBtn" type="submit" class="btn btn-primary" style="width: 100%;">Sign Up</button>
+        </form>
+
+        <p style="margin-top: 1rem; text-align: center; color: inherit;">
+            Already have an account?
+            <a href="#" onclick="showLogin()" style="color: #3b82f6; text-decoration: none;">Login</a>
+        </p>
+    </div>
+</div>
 
     <!-- Main App -->
     <div id="mainApp" class="hidden">
@@ -510,10 +699,10 @@
                 <h1 class="logo">ClubHub</h1>
                 
                 <nav class="nav">
-                    <button onclick="showPage('dashboard')">📊 Dashboard</button>
-                    <button onclick="showPage('clubs')">🎭 Clubs</button>
-                    <button onclick="showPage('profile')">👤 Profile</button>
-                    <button onclick="toggleTheme()">🌙</button>
+                    <button onclick="showPage('dashboard')">Dashboard</button>
+                    <button onclick="showPage('clubs')">Clubs</button>
+                    <button onclick="showPage('profile')">Profile</button>
+                    <button onclick="toggleTheme()">☾</button>
                     <button onclick="logout()" class="btn btn-danger">Logout</button>
                 </nav>
             </div>
@@ -547,11 +736,10 @@
                         <div class="section-header">
                             <h3 style="font-size: 1.25rem; font-weight: bold;">Quick Actions</h3>
                         </div>
-                        <button onclick="openModal('createClub')" class="btn btn-primary" style="width: 100%; margin-bottom: 0.75rem;">➕ Create Club</button>
-                        <button onclick="openModal('announcement')" class="btn btn-secondary" style="width: 100%; margin-bottom: 0.75rem;">📢 Post Announcement</button>
-                        <button onclick="openModal('event')" class="btn btn-primary" style="width: 100%;">📅 Create Event</button>
+                        <button onclick="openModal('createClub')" class="btn btn-primary" style="width: 100%; margin-bottom: 0.75rem;">Create Club</button>
+                        <button onclick="openModal('assignLeader')" class="btn btn-secondary" style="width: 100%; margin-bottom: 0.75rem;">Assign Club Leader</button>
+                        <button onclick="openModal('announcement')" class="btn btn-secondary" style="width: 100%; margin-bottom: 0.75rem;">Post Announcement</button>
                     </div>
-                    
                     <div class="card">
                         <div class="section-header">
                             <h3 style="font-size: 1.25rem; font-weight: bold;">Recent Announcements</h3>
@@ -561,38 +749,211 @@
                 </div>
             </div>
 
-            <!-- Member Dashboard -->
-            <div id="memberDashboard" class="hidden">
-                <div class="section-header">
-                    <h2 class="title">Member Dashboard</h2>
-                    <span class="badge">Member</span>
-                </div>
-                
-                <div class="grid grid-2">
-                    <div class="card">
-                        <div class="section-header">
-                            <h3 style="font-size: 1.25rem; font-weight: bold;">My Clubs</h3>
-                        </div>
-                        <div id="memberClubs"></div>
-                        <button onclick="showPage('clubs')" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">🔍 Browse Clubs</button>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="section-header">
-                            <h3 style="font-size: 1.25rem; font-weight: bold;">Upcoming Events</h3>
-                        </div>
-                        <div id="memberEvents"></div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="section-header">
-                            <h3 style="font-size: 1.25rem; font-weight: bold;">Announcements</h3>
-                        </div>
-                        <div id="memberAnnouncements"></div>
-                    </div>
-                </div>
-            </div>
+<!-- Leader Dashboard -->
+<div id="leaderDashboard" class="hidden">
+  <div class="section-header">
+    <h2 class="title">Leader Dashboard</h2>
+    <span class="badge">Leader</span>
+  </div>
 
+  <!-- Top Info Section -->
+  <div class="grid grid-2" style="margin-bottom: 1.5rem;">
+    <!-- Quick Actions -->
+    <div class="card">
+      <div class="section-header">
+        <h3 style="font-size: 1.25rem; font-weight: bold;">Quick Actions (Your Club)</h3>
+      </div>
+      <button id="leaderPostAnnouncementBtn" onclick="openModalForClub('announcement')" class="btn btn-secondary" style="width:100%; margin-bottom:0.75rem;">
+         Post Club Announcement
+      </button>
+      <button id="leaderCreateEventBtn" onclick="openModalForClub('event')" class="btn btn-primary" style="width:100%; margin-bottom:0.75rem;">
+         Create Club Event
+      </button>
+      <button id="leaderMembershipBtn"
+          onclick="openLeaderMembershipModal()"
+          class="btn btn-secondary"
+          style="width:100%; margin-bottom:0.75rem;">
+     Manage Membership
+    </button>
+    </div>
+
+
+
+    <!-- Club Info -->
+    <div class="card">
+      <div class="section-header">
+        <h3 style="font-size: 1.25rem; font-weight: bold;">Club Info</h3>
+      </div>
+      <div id="leaderClubInfo">
+        <!-- JS will populate club name, description, total members, etc. -->
+        <p style="color:#9ca3af;">Loading your club details...</p>
+      </div>
+    </div>
+  </div>
+
+<!-- Club Membership Section -->
+<div id="leaderMembershipSection" class="card" style="
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  background: rgba(255,255,255,0.05);
+  color: white;
+">
+  <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">Club Membership</h3>
+
+  <div id="membershipDetails" style="margin-bottom: 1rem;">
+    <p><strong>Account Name:</strong> <span id="memName">—</span></p>
+    <p><strong>Account Number:</strong> <span id="memNumber">—</span></p>
+    <p><strong>Description:</strong> <span id="memDesc">—</span></p>
+    <div id="memImageContainer" style="margin-top:1rem; display:none;">
+      <p><strong>QR / Payment Image:</strong></p>
+      <img id="memImage" src="" alt="Membership QR" style="width:150px; border-radius:0.5rem;">
+    </div>
+  </div>
+
+  <button class="btn btn-primary" onclick="openLeaderMembershipModal()">Update Membership</button>
+</div>
+
+
+  <!-- Announcements Section -->
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="section-header">
+      <h3 style="font-size: 1.25rem; font-weight: bold;">Your Club Announcements</h3>
+    </div>
+    <div id="leaderAnnouncementsList">
+      <p style="color:#9ca3af;">No announcements yet.</p>
+    </div>
+  </div>
+
+  <!-- Events Section -->
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="section-header">
+      <h3 style="font-size: 1.25rem; font-weight: bold;">Your Club Events</h3>
+    </div>
+    <div id="leaderEventsList">
+      <p style="color:#9ca3af;">No events yet.</p>
+    </div>
+  </div>
+
+ 
+
+
+  <!-- Members Section -->
+  <div class="card">
+    <div class="section-header">
+      <h3 style="font-size: 1.25rem; font-weight: bold;">Club Members</h3>
+      <small style="color:#9ca3af;">You can remove members from your club</small>
+    </div>
+    <div id="leaderMembersList">
+      <p style="color:#9ca3af;">No members found.</p>
+    </div>
+  </div>
+</div>
+
+ 
+
+                <!-- Member Dashboard -->
+<div id="memberDashboard" class="hidden">
+  <div class="section-header">
+    <h2 class="title">Member Dashboard</h2>
+    <span class="badge">Member</span>
+  </div>
+  
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="section-header">
+        <h3 style="font-size: 1.25rem; font-weight: bold;">My Clubs</h3>
+      </div>
+      <div id="memberClubs"></div>
+      <button onclick="showPage('clubs')" class="btn btn-primary" style="width: 100%; margin-top: 1rem;"> Browse Clubs</button>
+    </div>
+    
+    <div class="card">
+      <div class="section-header">
+        <h3 style="font-size: 1.25rem; font-weight: bold;">Upcoming Events</h3>
+      </div>
+      <div id="memberEvents"></div>
+    </div>
+    
+    <div class="card">
+      <div class="section-header">
+        <h3 style="font-size: 1.25rem; font-weight: bold;">Announcements</h3>
+      </div>
+      <div id="memberAnnouncements"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Profile Page (moved outside member dashboard) -->
+  <div id="profilePage" class="hidden">
+  <h2 class="title">My Profile</h2>
+
+  <div class="card" style="max-width: 42rem; margin: 0 auto; padding: 2rem;">
+    <!-- Profile Header -->
+    <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem;">
+      <div class="avatar" id="profileAvatar">A</div>
+      <div>
+        <h3 id="profileName" style="font-size: 1.75rem; font-weight: bold; margin-bottom: 0.25rem;">User</h3>
+        <p id="profileEmail" style="color: #9ca3af; margin-bottom: 0.5rem;">email@example.com</p>
+        <span id="profileRole" class="badge">Member</span>
+      </div>
+  </div>
+
+  <!-- Ensure profile clubs container exists -->
+  <div id="profileClubs" style="display:none"></div>
+
+    <!-- Basic Info -->
+    <div id="basicInfo">
+      <p><strong>Student ID:</strong> <span id="profileID"></span></p>
+      <p><strong>Birthday:</strong> <span id="profileBirthday"></span></p>
+      <p><strong>Joined:</strong> <span id="profileJoined"></span></p>
+      <p><strong>Course:</strong> <span id="profileCourse"></span></p>
+      <p><strong>Year Level:</strong> <span id="profileYearSection"></span></p>
+      <p><strong>About Me:</strong> <span id="profileAbout"></span></p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+      <button id="editProfileBtn" class="btn">Edit Profile</button>
+      <button id="changePasswordBtn" class="btn-secondary">Change Password</button>
+    </div>
+
+    <!-- Edit Profile Form -->
+    <form id="editProfileForm" class="hidden" style="margin-top: 2rem;">
+      <h4 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">Edit Profile Information</h4>
+
+      <label for="editName">Name</label>
+      <input type="text" id="editName" placeholder="Enter your name" class="input">
+
+      <label for="editUsername">Username</label>
+      <input type="text" id="editUsername" placeholder="Enter your username" class="input">
+
+      <label for="editEmail">Email</label>
+      <input type="email" id="editEmail" placeholder="Enter your email" class="input">
+
+      <label for="editBirthday">Birthday</label>
+      <input type="date" id="editBirthday" class="input">
+
+      <label for="editAbout">About Me</label>
+      <textarea id="editAbout" placeholder="Write something about yourself..." class="input"></textarea>
+
+      <label for="editYearSection">Year Level</label>
+      <input type="text" id="editYearSection" placeholder="Ex. BSIT 3A" class="input">
+
+      <label for="editCourse">Course</label>
+      <input type="text" id="editCourse" placeholder="Ex. Bachelor of Science in IT" class="input">
+
+      <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">Save Changes</button>
+    </form>
+
+    <!-- Badges Section -->
+    <div class="badges-section" style="margin-top: 2rem;">
+      <h4 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">Badges</h4>
+      <p style="color: #9ca3af;">No badges available yet</p>
+    </div>
+  </div>
+</div>
+ 
             <!-- Clubs Page -->
             <div id="clubsPage" class="hidden">
                 <h2 class="title">Clubs Directory</h2>
@@ -602,26 +963,11 @@
                 </div>
             </div>
 
-            <!-- Profile Page -->
-            <div id="profilePage" class="hidden">
-                <h2 class="title">My Profile</h2>
-                
-                <div class="card" style="max-width: 42rem; margin: 0 auto;">
-                    <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem;">
-                        <div class="avatar" id="profileAvatar">A</div>
-                        <div>
-                            <h3 id="profileName" style="font-size: 1.75rem; font-weight: bold; margin-bottom: 0.25rem;">User</h3>
-                            <p id="profileEmail" style="color: #9ca3af; margin-bottom: 0.5rem;">email@example.com</p>
-                            <span id="profileRole" class="badge">Member</span>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <h4 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">My Clubs</h4>
-                        <div id="profileClubs"></div>
-                    </div>
-                </div>
-            </div>
+           <!-- Profile Page -->
+
+
+
+            
         </main>
     </div>
 
@@ -691,6 +1037,8 @@
                 database.generalEvents = eventsData.events || [];
                 
                 console.log('Loaded data:', database);
+        // ensure announcements are available for dashboards
+        await loadAnnouncements();
             } catch (error) {
                 console.error('Failed to load data:', error);
                 showMessage('Failed to load data. Please refresh.', 'error');
@@ -730,6 +1078,8 @@
                 });
                 
                 currentUser = data.user;
+                // persist session locally so page reloads keep the user
+                try { localStorage.setItem('user', JSON.stringify(currentUser)); } catch {}
                 console.log('Logged in user:', currentUser);
                 
                 await loadInitialData();
@@ -745,45 +1095,45 @@
             }
         }
 
-        function logout() {
-            currentUser = null;
-            database = { clubs: [], generalAnnouncements: [], generalEvents: [] };
-            document.getElementById('loginPage').classList.remove('hidden');
-            document.getElementById('mainApp').classList.add('hidden');
-            document.getElementById('loginEmail').value = '';
-            document.getElementById('loginPassword').value = '';
-        }
+      function showPage(page) {
+    document.getElementById('adminDashboard').classList.add('hidden');
+    document.getElementById('leaderDashboard').classList.add('hidden');
+    document.getElementById('memberDashboard').classList.add('hidden');
+    document.getElementById('clubsPage').classList.add('hidden');
+    document.getElementById('profilePage').classList.add('hidden');
 
-        function showPage(page) {
-            document.getElementById('adminDashboard').classList.add('hidden');
-            document.getElementById('memberDashboard').classList.add('hidden');
-            document.getElementById('clubsPage').classList.add('hidden');
-            document.getElementById('profilePage').classList.add('hidden');
-            
-            if (page === 'dashboard') {
-                if (currentUser.role === 'Admin') {
-                    document.getElementById('adminDashboard').classList.remove('hidden');
-                    renderAdminDashboard();
-                } else {
-                    document.getElementById('memberDashboard').classList.remove('hidden');
-                    renderMemberDashboard();
-                }
-            } else if (page === 'clubs') {
-                document.getElementById('clubsPage').classList.remove('hidden');
-                renderClubs();
-            } else if (page === 'profile') {
-                document.getElementById('profilePage').classList.remove('hidden');
-                renderProfile();
-            }
+    if (page === 'dashboard') {
+        if (currentUser.role === 'Admin') {
+            document.getElementById('adminDashboard').classList.remove('hidden');
+            renderAdminDashboard();
+        } else if (
+            currentUser.role === 'Leader' ||
+            currentUser.type === 'Leader' ||
+            currentUser.leaderOf
+        ) {
+            document.getElementById('leaderDashboard').classList.remove('hidden');
+            renderLeaderDashboard();
+        } else {
+            document.getElementById('memberDashboard').classList.remove('hidden');
+            renderMemberDashboard();
         }
+    } else if (page === 'clubs') {
+        document.getElementById('clubsPage').classList.remove('hidden');
+        renderClubs();
+    } else if (page === 'profile') {
+        document.getElementById('profilePage').classList.remove('hidden');
+        renderProfile();
+    }
+}
 
         async function renderAdminDashboard() {
             try {
                 const statsData = await apiCall('/stats');
                 
                 document.getElementById('statsClubs').textContent = statsData.stats.totalClubs;
-                document.getElementById('statsMembers').textContent = statsData.stats.totalUsers;
+                document.getElementById('statsMembers').textContent = statsData.stats.totalMembers;
                 document.getElementById('statsEvents').textContent = statsData.stats.totalEvents;
+
                 
                 const announcementsDiv = document.getElementById('adminAnnouncements');
                 announcementsDiv.innerHTML = '';
@@ -807,25 +1157,38 @@
         }
 
         function renderMemberDashboard() {
-            const clubsDiv = document.getElementById('memberClubs');
-            clubsDiv.innerHTML = '';
-            
-            if (currentUser.clubs && currentUser.clubs.length > 0) {
-                currentUser.clubs.forEach(clubId => {
-                    const club = database.clubs.find(c => c.id === clubId);
-                    if (club) {
-                        const div = document.createElement('div');
-                        div.className = 'club-item';
-                        div.innerHTML = `
-                            <strong>${club.name}</strong>
-                            <p style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.25rem;">👥 ${club.members ? club.members.length : 0} members</p>
-                        `;
-                        clubsDiv.appendChild(div);
-                    }
-                });
-            } else {
-                clubsDiv.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🎭</div><p>You haven\'t joined any clubs yet</p></div>';
-            }
+           const clubsDiv = document.getElementById('memberClubs');
+clubsDiv.innerHTML = '';
+
+if (currentUser.clubs && currentUser.clubs.length > 0) {
+  const grid = document.createElement('div');
+  grid.className = 'grid grid-3';
+
+  currentUser.clubs.forEach(clubId => {
+    const club = database.clubs.find(c => c.id === clubId);
+    if (club) {
+      const card = document.createElement('div');
+      card.className = 'card club-card';
+      card.style.cursor = 'pointer';
+      card.onclick = () => openMemberClubModal(club);
+      card.innerHTML = `
+        <div style="display:flex; justify-content:center; align-items:center; height:180px; overflow:hidden; margin-bottom:1rem;">
+          <img src="${club.image}" alt="${club.name}" class="club-image" style="height:100%; width:auto; border-radius:0.75rem;">
+        </div>
+        <div>
+          <h3 style="font-size:1.25rem; font-weight:bold; text-align:center; margin-bottom:0.5rem;">${club.name}</h3>
+          <p style="text-align:center; color:#9ca3af;">👥 ${club.members?.length || 0} members</p>
+        </div>
+      `;
+      grid.appendChild(card);
+    }
+  });
+
+  clubsDiv.appendChild(grid);
+} else {
+  clubsDiv.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🎭</div><p>You haven\'t joined any clubs yet</p></div>';
+}
+
             
             const eventsDiv = document.getElementById('memberEvents');
             eventsDiv.innerHTML = '';
@@ -835,13 +1198,13 @@
                     const div = document.createElement('div');
                     div.className = 'event-item';
                     div.innerHTML = `
-                        <p style="font-weight: 600;">📅 ${event.title}</p>
+                        <p style="font-weight: 600;">${event.title}</p>
                         <p style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.25rem;">${event.date}</p>
                     `;
                     eventsDiv.appendChild(div);
                 });
             } else {
-                eventsDiv.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📅</div><p>No upcoming events</p></div>';
+                eventsDiv.innerHTML = '<div class="empty-state"><div class="empty-state-icon"></div><p>No upcoming events</p></div>';
             }
             
             const announcementsDiv = document.getElementById('memberAnnouncements');
@@ -862,33 +1225,247 @@
             }
         }
 
-        function renderClubs() {
-            const grid = document.getElementById('clubsGrid');
-            grid.innerHTML = '';
-            
-            if (database.clubs.length === 0) {
-                grid.innerHTML = '<div class="empty-state" style="grid-column: 1 / -1;"><div class="empty-state-icon">🎭</div><p>No clubs available yet</p></div>';
-                return;
-            }
-            
-            database.clubs.forEach(club => {
-                const card = document.createElement('div');
-                card.className = 'card club-card';
-                card.onclick = () => openClubModal(club);
-                card.innerHTML = `
-                    <img src="${club.image}" alt="${club.name}" class="club-image" style="border-radius: 0.75rem 0.75rem 0 0; margin: -1.5rem -1.5rem 1rem -1.5rem;">
-                    <div>
-                        <h3 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">${club.name}</h3>
-                        <p style="color: #9ca3af; margin-bottom: 1rem;">${club.description.substring(0, 120)}...</p>
-                        <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.875rem;">
-                            <span style="color: #9ca3af;">👥 ${club.members ? club.members.length : 0} members</span>
-                            <span style="color: #9ca3af;">📅 ${club.events ? club.events.length : 0} events</span>
-                        </div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
+        // ===============================
+// Leader Dashboard Renderer
+// ===============================
+async function renderLeaderDashboard() {
+  try {
+    const leaderClubId = currentUser.leaderOf || null;
+
+    if (!leaderClubId) {
+      document.getElementById('leaderClubInfo').innerHTML = `<p style="color:#9ca3af;">You are not assigned as a leader of any club.</p>`;
+      return;
+    }
+
+    // Fetch the leader's club from API
+    const clubData = await apiCall(`/clubs/${leaderClubId}`);
+
+    // ✅ Club Info
+    document.getElementById('leaderClubInfo').innerHTML = `
+      <p><strong>Name:</strong> ${clubData.club.name}</p>
+      <p><strong>Description:</strong> ${clubData.club.description}</p>
+      <p><strong>Members:</strong> ${clubData.club.members.length}</p>
+    `;
+
+    // ✅ Announcements
+    const announcementsList = document.getElementById('leaderAnnouncementsList');
+    announcementsList.innerHTML = '';
+    if (clubData.club.announcements.length > 0) {
+      clubData.club.announcements.forEach(a => {
+        const div = document.createElement('div');
+        div.className = 'announcement-item';
+        div.innerHTML = `
+          <p>${a.text}</p>
+          <p style="font-size:0.75rem; color:#9ca3af;">📅 ${a.date}</p>
+          <button class="btn btn-danger" style="margin-top:5px;" onclick="deleteClubAnnouncement(${leaderClubId}, ${a.id})">🗑 Remove</button>
+        `;
+        announcementsList.appendChild(div);
+      });
+    } else {
+      announcementsList.innerHTML = `<p style="color:#9ca3af;">No announcements yet.</p>`;
+    }
+
+    // ✅ Events
+    const eventsList = document.getElementById('leaderEventsList');
+    eventsList.innerHTML = '';
+    if (clubData.club.events.length > 0) {
+      clubData.club.events.forEach(e => {
+        const div = document.createElement('div');
+        div.className = 'event-item';
+        div.innerHTML = `
+          <p><strong>${e.title}</strong></p>
+          <p>${e.date}</p>
+        `;
+        eventsList.appendChild(div);
+      });
+    } else {
+      eventsList.innerHTML = `<p style="color:#9ca3af;">No events yet.</p>`;
+    }
+
+
+
+    // ✅ Members
+    const membersList = document.getElementById('leaderMembersList');
+    membersList.innerHTML = '';
+    if (clubData.club.members.length > 0) {
+      clubData.club.members.forEach(memberId => {
+        const memberDiv = document.createElement('div');
+        memberDiv.className = 'club-item';
+        memberDiv.innerHTML = `
+          <p>Member ID: ${memberId}</p>
+          <button class="btn btn-danger" onclick="removeMember(${leaderClubId}, ${memberId})">Remove</button>
+        `;
+        membersList.appendChild(memberDiv);
+      });
+    } else {
+      membersList.innerHTML = `<p style="color:#9ca3af;">No members in this club.</p>`;
+    }
+
+  } catch (error) {
+    console.error('Error rendering leader dashboard:', error);
+  }
+}
+
+// Members list
+const membersList = document.getElementById('leaderMembersList');
+membersList.innerHTML = '';
+if (clubData.club.members.length > 0) {
+  clubData.club.members.forEach(member => {
+    const div = document.createElement('div');
+    div.className = 'club-item';
+    div.innerHTML = `
+      <strong>${member.name}</strong> 
+      <button onclick="removeMember(${clubData.club.id}, ${member.id})" class="btn btn-danger" style="float:right;">🗑 Remove</button>
+    `;
+    membersList.appendChild(div);
+  });
+} else {
+  membersList.innerHTML = '<p style="color:#9ca3af;">No members found.</p>';
+}
+
+
+// ===============================
+// Delete Club Announcement
+// ===============================
+async function deleteClubAnnouncement(clubId, announcementId) {
+  try {
+    await apiCall(`/clubs/${clubId}/announcements/${announcementId}`, {
+      method: 'DELETE'
+    });
+    renderLeaderDashboard();
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// ===============================
+// Open Modal for Club (Announce/Event)
+// ===============================
+function openModalForClub(type) {
+  const leaderClubId = currentUser.leaderOf;
+  // Reuse your existing openModal but pass clubId
+  openModal(type, leaderClubId);
+}
+
+
+function renderClubs() {
+  const grid = document.getElementById('clubsGrid');
+  grid.innerHTML = '';
+
+  if (database.clubs.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column: 1 / -1;">
+        <div class="empty-state-icon">🎭</div>
+        <p>No clubs available yet</p>
+      </div>`;
+    return;
+  }
+
+  database.clubs.forEach(club => {
+    const card = document.createElement('div');
+    card.className = 'card club-card';
+    card.onclick = () => openClubModal(club);
+
+    card.innerHTML = `
+      <img src="${club.image}" alt="${club.name}" 
+           style="width:100%; height:180px; object-fit:cover; border-radius:0.75rem 0.75rem 0 0; margin-bottom:1rem;">
+      
+      <h3 style="font-size:1.25rem; font-weight:bold; text-align:center; margin-bottom:0.5rem;">
+        ${club.name}
+      </h3>
+      <p style="color:#9ca3af; text-align:center; margin-bottom:1rem;">
+        ${club.description.substring(0, 100)}...
+      </p>
+
+      <div style="display:flex; justify-content:center; margin-bottom:1rem;">
+        ${
+          currentUser?.clubs?.includes(club.id)
+            ? `<button class="btn btn-danger" onclick="leaveClub(${club.id})">Leave Club</button>`
+            : `<button class="btn btn-primary" onclick="joinClub(${club.id})">Join Club</button>`
         }
+      </div>
+
+      <div style="text-align:center; font-size:0.875rem; color:#9ca3af;">
+        👥 ${club.members?.length || 0} members • 📅 ${club.events?.length || 0} events
+      </div>
+
+      ${
+        currentUser && currentUser.role === 'Admin'
+          ? `
+            <div style="margin-top:1rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:1rem;">
+              <div style="margin-bottom:0.75rem;">
+                <strong>👤 Leader:</strong>
+                <span style="color:#9ca3af;">
+                  ${club.leader?.name || '<em>No leader assigned</em>'}
+                </span>
+                ${
+                  club.leader
+                    ? `<button onclick="removeClubLeader(${club.id})"
+                        class="btn btn-danger"
+                        style="padding:0.25rem 0.75rem; font-size:0.8rem; margin-left:0.5rem;">
+                        ❌ Remove
+                      </button>`
+                    : ''
+                }
+              </div>
+
+              <div style="display:flex; gap:0.5rem;">
+                <button onclick="editClubDescription(${club.id})" class="btn btn-secondary" style="flex:1;">Edit</button>
+                <button onclick="openAssignLeaderModal(${club.id})" class="btn btn-secondary" style="flex:1;">Assign</button>
+                <button onclick="deleteClub(${club.id})" class="btn btn-danger" style="flex:1;">Delete</button>
+              </div>
+            </div>
+          `
+          : ''
+      }
+    `;
+
+    grid.appendChild(card);
+  });
+}
+
+function openClubModal(club) {
+  const modal = document.getElementById('modal');
+  const title = document.getElementById('modalTitle');
+  const body = document.getElementById('modalBody');
+  
+  title.textContent = club.name;
+  body.innerHTML = `
+    <img src="${club.image}" alt="${club.name}" style="width:100%; border-radius:8px; margin-bottom:1rem;">
+    <p style="margin-bottom:1rem;">${club.description}</p>
+    <p style="color:#9ca3af;">👥 ${club.members?.length || 0} members</p>
+    <div style="margin-top:1.5rem; display:flex; gap:1rem;">
+      ${
+        currentUser?.clubs?.includes(club.id)
+          ? `<button class="btn btn-danger" onclick="leaveClub(${club.id})">Leave Club</button>`
+          : `<button class="btn btn-primary" onclick="joinClub(${club.id})">Join Club</button>`
+      }
+    </div>
+  `;
+  
+  modal.classList.add('active');
+}
+
+
+async function removeClubLeader(clubId) {
+  if (!confirm("Remove this club's leader?")) return;
+
+  try {
+    await apiCall(`/clubs/${clubId}`, {
+      method: 'PUT',
+      body: JSON.stringify({ leaderId: null })
+    });
+
+    const updated = await apiCall('/clubs');
+    database.clubs = updated.clubs || [];
+
+    showMessage('Leader removed successfully!', 'success');
+    renderClubs();
+  } catch (err) {
+    alert('Failed to remove leader: ' + err.message);
+  }
+}
+
 
         function renderProfile() {
             document.getElementById('profileAvatar').textContent = currentUser.email.charAt(0).toUpperCase();
@@ -896,136 +1473,260 @@
             document.getElementById('profileEmail').textContent = currentUser.email;
             document.getElementById('profileRole').textContent = currentUser.role;
             
+            // Handle Edit Profile Form Submission
+document.getElementById('editProfileForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+
+  const updatedData = {
+    name: document.getElementById('editName').value.trim(),
+    email: document.getElementById('editEmail').value.trim(),
+    birthday: document.getElementById('editBirthday').value,
+    about_me: document.getElementById('editAbout').value.trim(),
+    year_section: document.getElementById('editYearSection').value.trim(),
+    course: document.getElementById('editCourse').value.trim()
+  };
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/members/${currentUser.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedData)
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || 'Update failed');
+
+    alert('Profile updated successfully!');
+
+    // ✅ Use the updated record returned by backend if available
+    if (data.member) {
+      currentUser = data.member;
+    } else {
+      currentUser = { ...currentUser, ...updatedData };
+    }
+
+    // ✅ Instantly re-render profile
+    renderProfile();
+
+    // Hide edit form again
+    document.getElementById('editProfileForm').classList.add('hidden');
+    document.getElementById('basicInfo').classList.remove('hidden');
+  } catch (err) {
+    alert('Failed to update profile: ' + err.message);
+  }
+});
+
+
+                // Disable editing if Admin
+    if (currentUser.role === 'Admin') {
+        document.getElementById('editProfileBtn').disabled = true;
+        document.getElementById('editProfileBtn').textContent = 'Admin profile locked';
+        document.getElementById('editProfileBtn').classList.add('btn-secondary');
+    }
+
             const clubsDiv = document.getElementById('profileClubs');
             clubsDiv.innerHTML = '';
             
-            if (currentUser.clubs && currentUser.clubs.length > 0) {
-                currentUser.clubs.forEach(clubId => {
-                    const club = database.clubs.find(c => c.id === clubId);
-                    if (club) {
-                        const div = document.createElement('div');
-                        div.className = 'club-item';
-                        div.innerHTML = `
-                            <strong>${club.name}</strong>
-                            <p style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.25rem;">👥 ${club.members ? club.members.length : 0} members</p>
-                        `;
-                        clubsDiv.appendChild(div);
-                    }
-                });
+           if (currentUser.clubs && currentUser.clubs.length > 0) {
+  currentUser.clubs.forEach(clubId => {
+    const club = database.clubs.find(c => c.id === clubId);
+    if (club) {
+      const div = document.createElement('div');
+      div.className = 'club-item';
+      div.style.cursor = 'pointer';
+      div.onclick = () => openMemberClubModal(club);
+      div.innerHTML = `
+        <strong>${club.name}</strong>
+        <p style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.25rem;">
+          👥 ${club.members ? club.members.length : 0} members
+        </p>
+      `;
+      clubsDiv.appendChild(div);
+    }
+  });
+
+
             } else {
                 clubsDiv.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🎭</div><p>You haven\'t joined any clubs yet</p></div>';
             }
         }
+async function openModal(type) {
+  const modal = document.getElementById('modal');
+  const title = document.getElementById('modalTitle');
+  const body = document.getElementById('modalBody');
 
-        function openModal(type) {
-            const modal = document.getElementById('modal');
-            const title = document.getElementById('modalTitle');
-            const body = document.getElementById('modalBody');
-            
-            if (type === 'announcement') {
-                title.textContent = '📢 Post Announcement';
-                body.innerHTML = `
-                    <textarea id="announcementText" class="textarea" rows="6" placeholder="Write your announcement here..." style="margin-bottom: 1rem;"></textarea>
-                    <button onclick="postAnnouncement()" class="btn btn-primary" style="width: 100%;">Post Announcement</button>
-                `;
-            } else if (type === 'event') {
-                title.textContent = '📅 Create Event';
-                body.innerHTML = `
-                    <form onsubmit="createEvent(event)">
-                        <div style="margin-bottom: 1rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Event Title</label>
-                            <input type="text" id="eventTitle" class="input" placeholder="Annual Tech Summit" required>
-                        </div>
-                        <div style="margin-bottom: 1rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Date</label>
-                            <input type="date" id="eventDate" class="input" required>
-                        </div>
-                        <div style="margin-bottom: 1rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Description</label>
-                            <textarea id="eventDescription" class="textarea" rows="4" placeholder="Describe the event..." required></textarea>
-                        </div>
-                        <div style="margin-bottom: 1.5rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Assign to Club</label>
-                            <select id="eventClub" class="select">
-                                <option value="general">General Event</option>
-                                ${database.clubs.map(c => `<option value="${c.id}">${c.name}</option>`).join('')}
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">Create Event</button>
-                    </form>
-                `;
-            } else if (type === 'createClub') {
-                title.textContent = '➕ Create New Club';
-                body.innerHTML = `
-                    <form onsubmit="createClub(event)">
-                        <div style="margin-bottom: 1rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Club Name</label>
-                            <input type="text" id="clubName" class="input" placeholder="Photography Club" required>
-                        </div>
-                        <div style="margin-bottom: 1rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Description</label>
-                            <textarea id="clubDescription" class="textarea" rows="4" placeholder="Describe your club..." required></textarea>
-                        </div>
-                        <div style="margin-bottom: 1.5rem;">
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Image URL</label>
-                            <input type="url" id="clubImage" class="input" placeholder="https://example.com/image.jpg" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">Create Club</button>
-                    </form>
-                `;
-            }
-            
-            modal.classList.add('active');
-        }
+  modal.classList.add('active');
+  title.innerHTML = '';
+  body.innerHTML = '<div class="loading">Loading...</div>';
 
-        function openClubModal(club) {
-            const modal = document.getElementById('modal');
-            const title = document.getElementById('modalTitle');
-            const body = document.getElementById('modalBody');
-            
-            title.textContent = club.name;
-            
-            const isMember = currentUser.clubs && currentUser.clubs.includes(club.id);
-            
-            body.innerHTML = `
-                <img src="${club.image}" alt="${club.name}" style="width: 100%; height: 16rem; object-fit: cover; border-radius: 0.75rem; margin-bottom: 1.5rem;">
-                <p style="color: #9ca3af; margin-bottom: 1.5rem; line-height: 1.6;">${club.description}</p>
-                
-                <div style="margin-bottom: 1.5rem;">
-                    <h5 style="font-weight: bold; font-size: 1.125rem; margin-bottom: 0.75rem;">📢 Announcements</h5>
-                    ${club.announcements && club.announcements.length > 0 
-                        ? club.announcements.map(ann => `
-                            <div class="announcement-item">
-                                <p style="font-weight: 500;">${ann.text}</p>
-                                <p style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.5rem;">📅 ${ann.date}</p>
-                            </div>
-                        `).join('')
-                        : '<p style="color: #9ca3af; font-size: 0.875rem;">No announcements yet</p>'
-                    }
-                </div>
-                
-                <div style="margin-bottom: 1.5rem;">
-                    <h5 style="font-weight: bold; font-size: 1.125rem; margin-bottom: 0.75rem;">📅 Events</h5>
-                    ${club.events && club.events.length > 0 
-                        ? club.events.map(evt => `
-                            <div class="event-item">
-                                <p style="font-weight: 600;">${evt.title}</p>
-                                <p style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.25rem;">${evt.description}</p>
-                                <p style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem;">📅 ${evt.date}</p>
-                            </div>
-                        `).join('')
-                        : '<p style="color: #9ca3af; font-size: 0.875rem;">No events scheduled</p>'
-                    }
-                </div>
-                
-                ${!isMember 
-                    ? `<button onclick="joinClub(${club.id})" class="btn btn-primary" style="width: 100%;">Join Club</button>` 
-                    : `<div style="text-align: center; padding: 1rem; background: rgba(16, 185, 129, 0.1); border-radius: 0.75rem; color: #10b981; font-weight: 600;">✓ You are a member of this club</div>`
-                }
-            `;
-            
-            modal.classList.add('active');
-        }
+  // 🟦 Announcement
+  if (type === 'announcement') {
+    title.innerHTML = '<span style="display:flex;align-items:center;gap:0.5rem;"><strong>Post Announcement</strong></span>';
+    body.innerHTML = `
+      <form onsubmit="postAnnouncement(event)" style="display:flex;flex-direction:column;gap:1rem;">
+        <div>
+          <label class="label"><strong>Announcement</strong></label>
+          <textarea id="announcementText" class="textarea" rows="4" placeholder="Write your announcement here..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;font-weight:600;">Post Announcement</button>
+      </form>
+    `;
+  }
+
+  // 🟩 Create New Club
+  else if (type === 'createClub') {
+    title.innerHTML = '<span style="display:flex;align-items:center;gap:0.5rem;"> <strong>Create New Club</strong></span>';
+    body.innerHTML = `
+      <form onsubmit="createClub(event)" style="display:flex;flex-direction:column;gap:1rem;">
+        <div>
+          <label class="label"><strong>Club Name</strong></label>
+          <input id="clubName" class="input" placeholder="Photography Club" required>
+        </div>
+
+        <div>
+          <label class="label"><strong>Description</strong></label>
+          <textarea id="clubDescription" class="textarea" rows="4" placeholder="Describe your club..." required></textarea>
+        </div>
+
+        <div>
+          <label class="label"><strong>Image URL</strong></label>
+          <input id="clubImage" class="input" placeholder="https://example.com/image.jpg" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%;font-weight:600;">Create Club</button>
+      </form>
+    `;
+  }
+
+  // 🟨 Assign Club Leader
+  else if (type === 'assignLeader') {
+    await openAssignLeaderModal();
+    return;
+  }
+
+
+
+  modal.classList.add('active');
+}
+
+async function openMemberClubModal(club) {
+  const modal = document.getElementById('modal');
+  const title = document.getElementById('modalTitle');
+  const body = document.getElementById('modalBody');
+
+  modal.classList.add('active');
+  title.textContent = club.name;
+  body.innerHTML = '<div class="loading">Loading club info...</div>';
+
+  try {
+    const res = await apiCall(`/clubs/${club.id}`);
+    const c = res.club;
+
+    // 🟦 Announcements
+    let announcementsHTML = c.announcements?.length
+      ? c.announcements.map(a => `
+        <div class="announcement-item">
+          <p>${a.text}</p>
+          <p style="font-size:0.75rem; color:#9ca3af;">📅 ${a.date}</p>
+        </div>`).join('')
+      : `<p style="color:#9ca3af;">No announcements yet.</p>`;
+
+    // 🟨 Events
+    let eventsHTML = c.events?.length
+      ? c.events.map(e => `
+        <div class="event-item">
+          <p><strong>${e.title}</strong></p>
+          <p style="font-size:0.875rem; color:#9ca3af;">📅 ${e.date}</p>
+          <p>${e.description || ''}</p>
+        </div>`).join('')
+      : `<p style="color:#9ca3af;">No events yet.</p>`;
+
+    // 💳 Membership
+    const membership = c.membership || {};
+    const membershipHTML = `
+      <div>
+        <p><strong>Account Name:</strong> ${membership.accountName || '—'}</p>
+        <p><strong>Account Number:</strong> ${membership.accountNumber || '—'}</p>
+        <p><strong>Description:</strong> ${membership.description || '—'}</p>
+        ${membership.image ? `<img src="${membership.image}" alt="QR Code" style="width:150px; border-radius:8px; margin-top:1rem;">` : ''}
+        </div>
+    `;
+
+    // ✅ Render final modal
+    body.innerHTML = `
+      <div>
+        <img src="${c.image}" alt="${c.name}" style="width:100%; border-radius:8px; margin-bottom:1rem;">
+        <p>${c.description}</p>
+
+        <hr style="margin:1.5rem 0; opacity:0.2;">
+        <h4 style="margin-bottom:0.5rem;">📢 Announcements</h4>
+        ${announcementsHTML}
+
+        <hr style="margin:1.5rem 0; opacity:0.2;">
+        <h4 style="margin-bottom:0.5rem;">📅 Events</h4>
+        ${eventsHTML}
+
+        <hr style="margin:1.5rem 0; opacity:0.2;">
+        <h4 style="margin-bottom:0.5rem;">💳 Membership Info</h4>
+        ${membershipHTML}
+
+        <div style="display:flex; justify-content:center; margin-top:1.5rem;">
+  ${
+    currentUser?.clubs?.includes(c.id)
+      ? `<button class="btn btn-danger" onclick="leaveClub(${c.id})">Leave Club</button>`
+      : `<button class="btn btn-primary" onclick="joinClub(${c.id})">Join Club</button>`
+  }
+        </div>
+
+      </div>
+    `;
+  } catch (err) {
+    console.error('Error loading club:', err);
+    body.innerHTML = '<div class="error">Failed to load club info.</div>';
+  }
+}
+
+
+// ② Dedicated helper for loading clubs + members asynchronously
+async function openAssignLeaderModal(preselectedClubId = null) {
+  const modal = document.getElementById('modal');
+  const title = document.getElementById('modalTitle');
+  const body = document.getElementById('modalBody');
+
+  modal.classList.add('active');
+  title.textContent = 'Assign Club Leader';
+  body.innerHTML = `
+    <div style="margin-bottom:1rem;">
+      <label><strong>Select Club:</strong></label>
+      <select id="leaderClubSelect" class="input"></select>
+    </div>
+    <div style="margin-bottom:1rem;">
+      <label><strong>Select Leader (Member):</strong></label>
+      <select id="leaderMemberSelect" class="input"></select>
+    </div>
+    <button onclick="assignLeaderToClub()" class="btn btn-primary" style="width:100%;">Assign Leader</button>
+  `;
+
+  // fetch lists
+  const clubsRes = await apiCall('/clubs');
+  const membersRes = await apiCall('/members');
+
+  const clubSelect = document.getElementById('leaderClubSelect');
+  clubsRes.clubs.forEach(c =>
+    clubSelect.insertAdjacentHTML('beforeend', `<option value="${c.id}">${c.name}</option>`)
+  );
+
+  const memberSelect = document.getElementById('leaderMemberSelect');
+  membersRes.members.forEach(m =>
+    memberSelect.insertAdjacentHTML('beforeend', `<option value="${m.id}">${m.name} (${m.student_id})</option>`)
+  );
+
+  // ✅ Automatically preselect the right club if provided
+  if (preselectedClubId) {
+    clubSelect.value = preselectedClubId;
+  }
+}
 
         function closeModal(event) {
             if (event && event.target.id !== 'modal') return;
@@ -1090,56 +1791,862 @@
         }
 
         async function createClub(e) {
-            e.preventDefault();
-            const name = document.getElementById('clubName').value;
-            const description = document.getElementById('clubDescription').value;
-            const image = document.getElementById('clubImage').value;
-            
-            try {
-                await apiCall('/clubs', {
-                    method: 'POST',
-                    body: JSON.stringify({ 
-                        name, 
-                        description, 
-                        image,
-                        adminId: currentUser.id
-                    })
-                });
-                
-                const clubsData = await apiCall('/clubs');
-                database.clubs = clubsData.clubs || [];
-                
-                closeModal();
-                showMessage('Club created successfully!', 'success');
-                renderAdminDashboard();
-            } catch (error) {
-                alert(error.message || 'Failed to create club');
-            }
-        }
+  e.preventDefault();
+  const name = document.getElementById('clubName').value.trim();
+  const description = document.getElementById('clubDescription').value.trim();
+  const image = document.getElementById('clubImage').value.trim();
+
+  try {
+    const res = await fetch('/api/clubs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        description,
+        image,
+        adminId: currentUser.id
+      })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to create club');
+
+    // 🟩 Re-fetch updated list
+    const clubsData = await apiCall('/clubs');
+    database.clubs = clubsData.clubs || [];
+
+    closeModal();
+    showMessage('✅ Club created successfully!', 'success');
+    renderAdminDashboard(); // refresh data
+  } catch (err) {
+    alert('Error: ' + err.message);
+  }
+}
+
 
         async function joinClub(clubId) {
-            try {
-                await apiCall(`/clubs/${clubId}/join`, {
-                    method: 'POST',
-                    body: JSON.stringify({ userId: currentUser.id })
-                });
-                
-                if (!currentUser.clubs) currentUser.clubs = [];
-                currentUser.clubs.push(clubId);
-                
-                const club = database.clubs.find(c => c.id === clubId);
-                if (club) {
-                    if (!club.members) club.members = [];
-                    club.members.push(currentUser.id);
-                }
-                
-                closeModal();
-                showMessage(`Successfully joined ${club ? club.name : 'the club'}!`, 'success');
-                showPage('dashboard');
-            } catch (error) {
-                alert(error.message || 'Failed to join club');
-            }
+  if (!currentUser || !currentUser.id) {
+    alert('Please log in first.');
+    return;
+  }
+
+  try {
+    await apiCall(`/clubs/${clubId}/join`, {
+      method: 'POST',
+      body: JSON.stringify({ userId: currentUser.id })
+    });
+
+    // ✅ Update local user and club data
+    if (!currentUser.clubs) currentUser.clubs = [];
+    if (!currentUser.clubs.includes(clubId)) currentUser.clubs.push(clubId);
+
+    // Update localStorage so the joined club stays after refresh
+    localStorage.setItem('user', JSON.stringify(currentUser));
+
+    const club = database.clubs.find(c => c.id === clubId);
+    if (club) {
+      if (!club.members) club.members = [];
+      if (!club.members.includes(currentUser.id)) club.members.push(currentUser.id);
+    }
+
+    showMessage(`✅ Joined ${club ? club.name : 'club'} successfully!`, 'success');
+
+    // 🟢 Live update modal if it's open
+    const modal = document.getElementById('modal');
+    if (modal.classList.contains('active')) {
+      openMemberClubModal(club); // re-render modal instantly
+    }
+
+  } catch (error) {
+    alert(error.message || 'Failed to join club');
+  }
+}
+
+
+        async function deleteClub(clubId) {
+    if (!confirm("Are you sure you want to delete this club?")) return;
+
+    try {
+        await apiCall(`/clubs/${clubId}`, {
+            method: 'DELETE'
+        });
+
+        database.clubs = database.clubs.filter(c => c.id !== clubId);
+        renderClubs();
+        showMessage('Club deleted successfully!', 'success');
+    } catch (error) {
+        alert(error.message || 'Failed to delete club');
+    }
+}
+async function leaveClub(clubId) {
+  if (!currentUser || !currentUser.id) {
+    alert('Please log in first.');
+    return;
+  }
+
+  if (!confirm('Are you sure you want to leave this club?')) return;
+
+  try {
+    await apiCall(`/clubs/${clubId}/leave`, {
+      method: 'POST',
+      body: JSON.stringify({ userId: currentUser.id })
+    });
+
+    // ✅ Update local data
+    currentUser.clubs = currentUser.clubs.filter(id => id !== clubId);
+    localStorage.setItem('user', JSON.stringify(currentUser));
+
+    const club = database.clubs.find(c => c.id === clubId);
+    if (club && club.members) {
+      club.members = club.members.filter(id => id !== currentUser.id);
+    }
+
+    showMessage('🚪 You left the club.', 'success');
+
+    // 🟢 Live update modal if it's open
+    const modal = document.getElementById('modal');
+    if (modal.classList.contains('active')) {
+      openMemberClubModal(club); // re-render modal instantly
+    }
+
+  } catch (err) {
+    console.error('Error leaving club:', err);
+    alert('Failed to leave club.');
+  }
+}
+
+
+
+
+function editClubDescription(clubId) {
+    const club = database.clubs.find(c => c.id === clubId);
+    if (!club) return alert("Club not found.");
+
+    const newDesc = prompt("Enter new description:", club.description);
+    if (newDesc === null) return;
+
+    apiCall(`/clubs/${clubId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ description: newDesc })
+    }).then(() => {
+        club.description = newDesc;
+        renderClubs();
+        showMessage('Description updated!', 'success');
+    }).catch(err => {
+        alert(err.message || 'Failed to update description');
+    });
+}
+
+function editClubLeader(clubId) {
+    const club = database.clubs.find(c => c.id === clubId);
+    if (!club) return alert("Club not found.");
+
+    const newLeaderId = prompt("Enter new leader user ID:", club.adminId || "");
+    if (newLeaderId === null) return;
+
+    apiCall(`/clubs/${clubId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ adminId: parseInt(newLeaderId) })
+    }).then(() => {
+        club.adminId = parseInt(newLeaderId);
+        renderClubs();
+        showMessage('Club leader updated!', 'success');
+    }).catch(err => {
+        alert(err.message || 'Failed to update leader');
+    });
+}
+async function loadAnnouncements() {
+  try {
+    const data = await apiCall('/announcements');
+    database.generalAnnouncements = data.announcements || [];
+    // If admin dashboard visible, re-render
+    if (!document.getElementById('adminDashboard').classList.contains('hidden')) {
+      renderAdminDashboard();
+    }
+  } catch (err) {
+    console.error('Failed to load announcements:', err);
+  }
+}
+
+async function deleteAnnouncement(id) {
+  if (!confirm('Delete announcement?')) return;
+  try {
+    await apiCall(`/announcements/${id}`, { method: 'DELETE' });
+    await loadAnnouncements();
+    alert('Announcement deleted');
+  } catch (err) {
+    console.error('Error deleting announcement:', err);
+    alert('Failed to delete announcement');
+  }
+}
+
+// ✅ Signup handler
+async function signup(event) {
+  event.preventDefault();
+
+  const name = document.getElementById('signupName').value.trim();
+  const studentID = document.getElementById('signupStudentID').value.trim();
+  const email = document.getElementById('signupEmail').value.trim();
+  const password = document.getElementById('signupPassword').value.trim();
+  const signupBtn = document.getElementById('signupBtn');
+
+  signupBtn.disabled = true;
+  signupBtn.textContent = "Signing up...";
+
+  try {
+    const res = await apiCall('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({ name, studentID, email, password, role: 'Member' })
+    });
+
+    // Some APIs return the created user; if so, save it so user can be auto-logged in
+    if (res.user) {
+      currentUser = res.user;
+      try { localStorage.setItem('user', JSON.stringify(currentUser)); } catch {}
+    }
+
+    showSignupMessage('signupSuccess', 'Account created successfully! You can now login.');
+    setTimeout(() => showLogin(), 1500);
+  } catch (err) {
+    showSignupMessage('signupError', err.message || 'Signup failed. Please try again.');
+  } finally {
+    signupBtn.disabled = false;
+    signupBtn.textContent = "Sign Up";
+  }
+}
+
+function showSignupMessage(id, msg) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.remove('hidden');
+  setTimeout(() => el.classList.add('hidden'), 4000);
+}
+
+function showSignup() {
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('signupPage').classList.remove('hidden');
+}
+
+function showLogin() {
+  document.getElementById('signupPage').classList.add('hidden');
+  document.getElementById('loginPage').classList.remove('hidden');
+}
+// ==========================
+// PROFILE PAGE HANDLER
+// ==========================
+
+// Load current user from localStorage
+currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+// inside async function login(e)
+currentUser = data.user;
+localStorage.setItem('user', JSON.stringify(currentUser)); // ✅ Save user data
+
+
+// Elements
+const profileName = document.getElementById('profileName');
+const profileEmail = document.getElementById('profileEmail');
+const profileRole = document.getElementById('profileRole');
+const profileID = document.getElementById('profileID');
+const profileJoined = document.getElementById('profileJoined');
+const editProfileBtn = document.getElementById('editProfileBtn');
+const editProfileForm = document.getElementById('editProfileForm');
+
+// Load Profile Data
+async function loadProfile() {
+  if (!currentUser?.id) return console.warn('No logged-in user');
+
+  const res = await fetch(`/api/members/${currentUser.id}`);
+  const data = await res.json();
+
+  if (data.member) {
+    const m = data.member;
+    profileName.textContent = m.name;
+    profileEmail.textContent = m.email;
+    profileRole.textContent = m.role;
+    profileID.textContent = m.student_id;
+    profileJoined.textContent = new Date(m.joined_at).toLocaleDateString();
+
+    // Fill form fields
+    document.getElementById('editName').value = m.name || '';
+    document.getElementById('editUsername').value = m.username || '';
+    document.getElementById('editEmail').value = m.email || '';
+    document.getElementById('editAbout').value = m.about_me || '';
+    document.getElementById('editYearSection').value = m.year_section || '';
+    document.getElementById('editCourse').value = m.course || '';
+  }
+}
+
+// Toggle Edit Mode
+editProfileBtn.addEventListener('click', () => {
+  editProfileForm.classList.toggle('hidden');
+});
+
+// Save Profile Changes
+editProfileForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const updated = {
+    name: document.getElementById('editName').value,
+    username: document.getElementById('editUsername').value,
+    email: document.getElementById('editEmail').value,
+    about_me: document.getElementById('editAbout').value,
+    year_section: document.getElementById('editYearSection').value,
+    course: document.getElementById('editCourse').value
+  };
+
+  const res = await fetch(`/api/members/${currentUser.id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updated)
+  });
+
+  const data = await res.json();
+  alert(data.message || 'Updated successfully!');
+  await loadProfile();
+  editProfileForm.classList.add('hidden');
+});
+
+// Auto-login if saved user exists
+window.addEventListener('DOMContentLoaded', () => {
+  // set default theme if none
+  if (!document.body.classList.contains('dark') && !document.body.classList.contains('light')) {
+    document.body.classList.add('dark');
+  }
+
+  const savedUser = JSON.parse(localStorage.getItem('user') || 'null');
+  if (savedUser && savedUser.id) {
+    currentUser = savedUser;
+    loadInitialData().then(() => {
+      document.getElementById('loginPage').classList.add('hidden');
+      document.getElementById('mainApp').classList.remove('hidden');
+      showPage('dashboard');
+    });
+  } else {
+    // still load public data like clubs/announcements for browsing
+    loadInitialData().catch(() => {});
+  }
+});
+
+// Optional: view member profile quick view (you can hook it to modal)
+function viewMemberProfile(memberId) {
+  // If you have members endpoint, fetch details; otherwise show basic modal
+  openMemberModal(memberId);
+}
+
+function openMemberModal(memberId) {
+  const modal = document.getElementById('modal');
+  const title = document.getElementById('modalTitle');
+  const body = document.getElementById('modalBody');
+
+  title.textContent = 'Member Details';
+  body.innerHTML = `<div class="loading">Loading...</div>`;
+  modal.classList.add('active');
+
+  // Try fetching member details from API
+  fetch(`${API_BASE_URL}/members/${memberId}`)
+    .then(r => r.json())
+    .then(data => {
+      if (data.member) {
+        const m = data.member;
+        body.innerHTML = `
+          <div style="display:flex; gap:1rem; align-items:center;">
+            <div class="avatar">${(m.name || m.email || '').charAt(0).toUpperCase()}</div>
+            <div>
+              <h4 style="margin:0;">${m.name || m.email}</h4>
+              <p style="color:#9ca3af; margin:0;">${m.email || ''}</p>
+              <p style="color:#9ca3af; margin:0;">Student ID: ${m.student_id || ''}</p>
+            </div>
+          </div>
+        `;
+      } else {
+        body.innerHTML = '<div class="empty-state"><p>Member not found</p></div>';
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      body.innerHTML = '<div class="empty-state"><p>Failed to load member</p></div>';
+    });
+}
+
+// Remove a member from the club (leader action)
+// Uses the existing /clubs/:id/leave POST endpoint with memberId (server supports this).
+async function removeMemberFromClub(memberId, clubId) {
+  if (!confirm('Remove this member from the club?')) return;
+
+  try {
+    // Call API to remove link (server expects userId)
+    await apiCall(`/clubs/${clubId}/leave`, {
+      method: 'POST',
+      body: JSON.stringify({ userId: memberId })
+    });
+
+    // Update local DB representation
+    const club = database.clubs.find(c => c.id === clubId);
+    if (club && club.members) {
+      club.members = club.members.filter(id => id !== memberId);
+    }
+
+    // If we had currentUser in club members, update that too
+    if (currentUser.id === memberId) {
+      currentUser.clubs = currentUser.clubs.filter(id => id !== clubId);
+    }
+
+    showMessage('Member removed from club', 'success');
+    renderLeaderDashboard();
+  } catch (err) {
+    console.error('Failed to remove member:', err);
+    showMessage('Failed to remove member', 'error');
+  }
+}
+
+// Internal implementation for assigning a leader. Accepts optional clubId param.
+async function assignLeaderToClubInternal(clubId = null) {
+  const clubSelect = document.getElementById('leaderClubSelect');
+  const memberSelect = document.getElementById('leaderMemberSelect');
+
+  const cid = clubId || (clubSelect ? clubSelect.value : null);
+  const leaderId = memberSelect ? memberSelect.value : null;
+
+  if (!cid || !leaderId) {
+    alert('Please select both club and leader.');
+    return;
+  }
+
+  try {
+    await apiCall(`/clubs/${cid}`, {
+      method: 'PUT',
+      body: JSON.stringify({ leaderId })
+    });
+    alert('✅ Leader assigned successfully!');
+    closeModal();
+    renderAdminDashboard();
+  } catch (error) {
+    alert('❌ Failed to assign leader: ' + error.message);
+  }
+}
+
+// Backwards-compatible wrapper used by inline onclicks
+function assignLeaderToClub(clubId = null) {
+  return assignLeaderToClubInternal(clubId);
+}
+async function loadLeaderMembers() {
+  try {
+    const membersData = await apiCall('/members'); // or your actual endpoint
+    database.members = membersData.members || [];
+    renderLeaderMemberDropdown(database.members);
+  } catch (err) {
+    console.error('Error loading members:', err);
+  }
+}
+
+function renderLeaderMemberDropdown(members) {
+  const select = document.getElementById('leaderMemberSelect');
+  if (!select) return;
+
+  select.innerHTML = members.length
+    ? members.map(m => `<option value="${m.id}">${m.name} (${m.email})</option>`).join('')
+    : '<option disabled>No members found</option>';
+}
+
+function filterLeaderMembers() {
+  const search = document.getElementById('memberSearch').value.toLowerCase();
+  const filtered = database.members.filter(m => m.name.toLowerCase().includes(search));
+  renderLeaderMemberDropdown(filtered);
+}
+
+async function setLeader(clubId) {
+  const modal = document.getElementById('modal');
+  const title = document.getElementById('modalTitle');
+  const body = document.getElementById('modalBody');
+
+  modal.classList.add('active');
+  title.textContent = 'Assign Club Leader';
+  body.innerHTML = `
+    <div style="margin-bottom: 1rem;">
+      <label><strong>Select Leader (Member):</strong></label>
+      <select id="leaderMemberSelect" class="input"></select>
+    </div>
+    <button onclick="assignLeaderToClub(${clubId})" class="btn btn-primary" style="width: 100%;">💾 Assign Leader</button>
+  `;
+
+  const membersRes = await apiCall('/members');
+  const memberSelect = document.getElementById('leaderMemberSelect');
+  membersRes.members.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m.id;
+    opt.textContent = `${m.name} (${m.student_id})`;
+    memberSelect.appendChild(opt);
+  });
+}
+
+async function assignLeaderToClub(clubId) {
+  const leaderId = document.getElementById('leaderMemberSelect').value;
+
+  if (!leaderId) {
+    alert('Please select a leader.');
+    return;
+  }
+
+  await apiCall(`/clubs/${clubId}`, {
+    method: 'PUT',
+    body: JSON.stringify({ leaderId })
+  });
+
+  alert('✅ Leader assigned successfully!');
+  closeModal();
+  renderAdminDashboard();
+}
+
+// Initialize profile when profilePage is shown
+loadProfile();
+function logout() {
+  // Clear user session
+  localStorage.removeItem('user');
+  currentUser = null;
+
+  // Hide main app and show login page again
+  document.getElementById('mainApp').classList.add('hidden');
+  document.getElementById('loginPage').classList.remove('hidden');
+
+  // Optional: reset dashboards
+  document.getElementById('adminDashboard').classList.add('hidden');
+  document.getElementById('leaderDashboard').classList.add('hidden');
+  document.getElementById('memberDashboard').classList.add('hidden');
+
+  // Optional: clear any form data or modals
+  document.getElementById('modal').classList.remove('active');
+
+  console.log("User logged out successfully");
+}
+
+async function loadMembersForLeader() {
+  try {
+    const membersData = await apiCall('/members');
+    database.members = membersData.members || [];
+
+    renderMemberDropdown(database.members);
+  } catch (err) {
+    console.error('Error loading members:', err);
+  }
+}
+
+function renderMemberDropdown(members) {
+  const select = document.getElementById('assignLeaderMember');
+  if (!select) return;
+
+  select.innerHTML = members.length
+    ? members.map(m => `<option value="${m.id}">${m.name} (${m.email})</option>`).join('')
+    : '<option disabled>No members found</option>';
+}
+
+function filterMembers() {
+  const search = document.getElementById('memberSearch').value.toLowerCase();
+  const filtered = database.members.filter(m => m.name.toLowerCase().includes(search));
+  renderMemberDropdown(filtered);
+}
+// ============================
+// ✅ CREATE CLUB HANDLER
+// ============================
+async function createClub(event) {
+  event.preventDefault();
+  
+  const name = document.getElementById('clubName').value.trim();
+  const description = document.getElementById('clubDescription').value.trim();
+  const image = document.getElementById('clubImage').value.trim();
+
+  try {
+    // 🟦 Create the club in the database
+    const data = await apiCall('/clubs', {
+      method: 'POST',
+      body: JSON.stringify({
+        name,
+        description,
+        image,
+        adminId: currentUser?.id || null
+      })
+    });
+
+    // 🟩 Instantly update local data (no page refresh)
+    database.clubs.push(data.club);
+
+    // 🟩 Re-render admin dashboard + clubs page
+    renderAdminDashboard();
+    renderClubs();
+
+    // 🟩 Close modal and notify user
+    closeModal();
+    showMessage('Club created successfully!', 'success');
+  } catch (error) {
+    console.error('Failed to create club:', error);
+    showMessage(error.message || 'Failed to create club', 'error');
+  }
+}
+
+// ======================
+// LEADER QUICK ACTION FIX
+// ======================
+
+function openModalForClub(type) {
+  const modal = document.getElementById('modal');
+  const title = document.getElementById('modalTitle');
+  const body = document.getElementById('modalBody');
+
+  modal.classList.add('active');
+
+  if (!currentUser || !currentUser.leaderOf) {
+    body.innerHTML = `<p style="color:red;">You are not assigned as a club leader.</p>`;
+    return;
+  }
+
+  if (type === 'announcement') {
+    title.textContent = 'Post Club Announcement';
+    body.innerHTML = `
+      <form onsubmit="submitClubAnnouncement(event)">
+        <textarea id="clubAnnouncementText" class="textarea" placeholder="Write your announcement..." required></textarea>
+        <button type="submit" class="btn btn-primary" style="margin-top:1rem;">Post</button>
+      </form>
+    `;
+  }
+
+  if (type === 'event') {
+    title.textContent = 'Create Club Event';
+    body.innerHTML = `
+      <form onsubmit="submitClubEvent(event)">
+        <input type="text" id="eventTitle" class="input" placeholder="Event title" required>
+        <textarea id="eventDescription" class="textarea" placeholder="Event description" required></textarea>
+        <input type="date" id="eventDate" class="input" required>
+        <button type="submit" class="btn btn-primary" style="margin-top:1rem;">Create</button>
+      </form>
+    `;
+  }
+}
+
+async function submitClubAnnouncement(e) {
+  e.preventDefault();
+  const text = document.getElementById('clubAnnouncementText').value;
+  try {
+    await apiCall(`/clubs/${currentUser.leaderOf}/announcements`, {
+      method: 'POST',
+      body: JSON.stringify({ text })
+    });
+    closeModal();
+    alert('Announcement posted successfully!');
+    renderLeaderDashboard(); // refresh list
+  } catch (err) {
+    alert('Failed to post announcement: ' + err.message);
+  }
+}
+
+async function submitClubEvent(e) {
+  e.preventDefault();
+  const title = document.getElementById('eventTitle').value;
+  const description = document.getElementById('eventDescription').value;
+  const date = document.getElementById('eventDate').value;
+
+  try {
+    await apiCall('/events', {
+      method: 'POST',
+      body: JSON.stringify({
+        title,
+        description,
+        date,
+        clubId: currentUser.leaderOf
+      })
+    });
+    closeModal();
+    alert('Event created successfully!');
+    renderLeaderDashboard(); // refresh list
+  } catch (err) {
+    alert('Failed to create event: ' + err.message);
+  }
+}
+
+function openLeaderMembershipModal() {
+  const modal = document.getElementById('modal');
+  const title = document.getElementById('modalTitle');
+  const body = document.getElementById('modalBody');
+  modal.classList.add('active');
+
+  title.textContent = 'Manage Club Membership';
+  body.innerHTML = `
+    <form onsubmit="submitMembershipInfo(event)">
+      <input type="text" id="memNameInput" class="input" placeholder="Account Name" required>
+      <input type="text" id="memNumberInput" class="input" placeholder="Account Number" required>
+      <textarea id="memDescInput" class="textarea" placeholder="Description"></textarea>
+      <input type="url" id="memImageInput" class="input" placeholder="Image URL (optional)">
+      <button type="submit" class="btn btn-primary" style="margin-top:1rem;">Save</button>
+    </form>
+  `;
+}
+
+async function submitMembershipInfo(e) {
+  e.preventDefault();
+  const membershipName = document.getElementById('memNameInput').value;
+  const membershipNumber = document.getElementById('memNumberInput').value;
+  const membershipDescription = document.getElementById('memDescInput').value;
+  const membershipImage = document.getElementById('memImageInput').value;
+
+  try {
+    await apiCall(`/clubs/${currentUser.leaderOf}/membership`, {
+      method: 'POST',
+      body: JSON.stringify({
+  membership_name: membershipName,
+  membership_number: membershipNumber,
+  membership_description: membershipDescription,
+  membership_image: membershipImage
+})
+
+    });
+    closeModal();
+    alert('Membership details updated!');
+    renderLeaderDashboard();
+  } catch (err) {
+    alert('Failed to update membership info: ' + err.message);
+  }
+}
+// ==============================
+// LEADER DASHBOARD RENDER FIX
+// ==============================
+async function renderLeaderDashboard() {
+  if (!currentUser || !currentUser.leaderOf) {
+    document.getElementById('leaderClubInfo').innerHTML =
+      `<p style="color:red;">You are not assigned as a club leader.</p>`;
+    return;
+  }
+
+  const clubId = currentUser.leaderOf;
+
+  try {
+    // 1️⃣ Get the club details (includes announcements + events + members)
+    const clubData = await apiCall(`/clubs/${clubId}`);
+    const club = clubData.club;
+
+    // --- CLUB INFO ---
+    const infoDiv = document.getElementById('leaderClubInfo');
+    infoDiv.innerHTML = `
+      <p><strong>Club Name:</strong> ${club.name}</p>
+      <p><strong>Description:</strong> ${club.description || 'No description'}</p>
+      <p><strong>Total Members:</strong> ${club.members ? club.members.length : 0}</p>
+    `;
+
+    // --- ANNOUNCEMENTS ---
+    const announcementsList = document.getElementById('leaderAnnouncementsList');
+    announcementsList.innerHTML = '';
+    if (club.announcements && club.announcements.length > 0) {
+      club.announcements.forEach(a => {
+        const div = document.createElement('div');
+        div.className = 'announcement-item';
+        div.innerHTML = `
+          <p style="font-weight:500;">${a.text}</p>
+          <p style="font-size:0.75rem; color:#9ca3af;">📅 ${a.date}</p>
+          <button class="btn btn-danger" style="margin-top:0.5rem;" onclick="deleteClubAnnouncement(${clubId}, ${a.id})">Delete</button>
+        `;
+        announcementsList.appendChild(div);
+      });
+    } else {
+      announcementsList.innerHTML = `<p style="color:#9ca3af;">No announcements yet.</p>`;
+    }
+
+    // --- EVENTS ---
+    const eventsList = document.getElementById('leaderEventsList');
+    eventsList.innerHTML = '';
+    if (club.events && club.events.length > 0) {
+      club.events.forEach(e => {
+        const div = document.createElement('div');
+        div.className = 'event-item';
+        div.innerHTML = `
+          <p><strong>${e.title}</strong></p>
+          <p style="color:#9ca3af;">📅 ${e.date}</p>
+          <p>${e.description}</p>
+          <button class="btn btn-danger" style="margin-top:0.5rem;" onclick="deleteClubEvent(${e.id})">Delete</button>
+        `;
+        eventsList.appendChild(div);
+      });
+    } else {
+      eventsList.innerHTML = `<p style="color:#9ca3af;">No events yet.</p>`;
+    }
+
+    // --- MEMBERS ---
+    const membersList = document.getElementById('leaderMembersList');
+    membersList.innerHTML = '';
+    if (club.members && club.members.length > 0) {
+      club.members.forEach(m => {
+        const div = document.createElement('div');
+        div.className = 'club-item';
+        div.innerHTML = `
+          <p><strong>${m.name}</strong> (${m.role || 'Member'})</p>
+          <button class="btn btn-danger" style="margin-top:0.25rem;" onclick="removeMember(${clubId}, ${m.id})">Remove</button>
+        `;
+        membersList.appendChild(div);
+      });
+    } else {
+      membersList.innerHTML = `<p style="color:#9ca3af;">No members found.</p>`;
+    }
+
+    // --- MEMBERSHIP INFO ---
+    try {
+      const membership = await apiCall(`/clubs/${clubId}/membership`);
+      if (membership && membership.membership_name) {
+        document.getElementById('memName').textContent = membership.membership_name;
+        document.getElementById('memNumber').textContent = membership.membership_number;
+        document.getElementById('memDesc').textContent = membership.membership_description;
+
+        const memImg = document.getElementById('memImage');
+        if (membership.membership_image) {
+          memImg.src = membership.membership_image;
+          document.getElementById('memImageContainer').style.display = 'block';
+        } else {
+          document.getElementById('memImageContainer').style.display = 'none';
         }
+      } else {
+        document.getElementById('memName').textContent = '—';
+        document.getElementById('memNumber').textContent = '—';
+        document.getElementById('memDesc').textContent = '—';
+        document.getElementById('memImageContainer').style.display = 'none';
+      }
+    } catch {
+      console.warn('No membership info found.');
+    }
+
+  } catch (err) {
+    console.error('Failed to render leader dashboard:', err);
+    document.getElementById('leaderClubInfo').innerHTML =
+      `<p style="color:red;">Failed to load club details.</p>`;
+  }
+}
+async function deleteClubAnnouncement(clubId, announcementId) {
+  if (!confirm('Delete this announcement?')) return;
+  try {
+    await apiCall(`/clubs/${clubId}/announcements/${announcementId}`, { method: 'DELETE' });
+    renderLeaderDashboard();
+  } catch (err) {
+    alert('Failed to delete announcement: ' + err.message);
+  }
+}
+
+async function deleteClubEvent(eventId) {
+  if (!confirm('Delete this event?')) return;
+  try {
+    await apiCall(`/events/${eventId}`, { method: 'DELETE' });
+    renderLeaderDashboard();
+  } catch (err) {
+    alert('Failed to delete event: ' + err.message);
+  }
+}
+
+async function removeMember(clubId, memberId) {
+  if (!confirm('Remove this member?')) return;
+  try {
+    await apiCall(`/clubs/${clubId}/leave`, {
+      method: 'POST',
+      body: JSON.stringify({ userId: memberId })
+    });
+    renderLeaderDashboard();
+  } catch (err) {
+    alert('Failed to remove member: ' + err.message);
+  }
+}
     </script>
 </body>
 </html>
